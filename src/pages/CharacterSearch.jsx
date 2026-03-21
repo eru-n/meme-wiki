@@ -48,7 +48,12 @@ export default function CharacterSearch() {
       if (selectedWeapons.length && !selectedWeapons.includes(c.weapon)) return false;
       return true;
     });
-    result.sort((a, b) => (b[sortKey] || 0) - (a[sortKey] || 0));
+    result.sort((a, b) => {
+      const statDiff = (b[sortKey] || 0) - (a[sortKey] || 0);
+      if (statDiff !== 0) return statDiff;
+      // Secondary sort by rarity when stats are equal
+      return (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
+    });
     return result;
   }, [characters, search, selectedElements, selectedRarities, selectedRoles, selectedWeapons, sortKey]);
 
@@ -102,6 +107,10 @@ export default function CharacterSearch() {
             <FilterBtns items={elements} selected={selectedElements} onToggle={v => toggleFilter(selectedElements, setSelectedElements, v)} />
             <div className="w-px bg-border" />
             <FilterBtns items={roles} selected={selectedRoles} onToggle={v => toggleFilter(selectedRoles, setSelectedRoles, v)} />
+            <div className="w-px bg-border" />
+            <FilterBtns items={rarities} selected={selectedRarities} onToggle={v => toggleFilter(selectedRarities, setSelectedRarities, v)} />
+            <div className="w-px bg-border" />
+            <FilterBtns items={weapons} selected={selectedWeapons} onToggle={v => toggleFilter(selectedWeapons, setSelectedWeapons, v)} />
           </div>
         </div>
         <div className="p-3 px-5 flex items-end">

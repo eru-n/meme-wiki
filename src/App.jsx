@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -35,6 +35,8 @@ const AuthenticatedApp = () => {
       navigateToLogin();
       return null;
     }
+    // For unknown errors (e.g. no backend on GitHub Pages), just render the app
+    // since requiresAuth is false
   }
 
   // Render the main app

@@ -32,7 +32,7 @@ export default function GlobalSearch() {
         if (c.name?.toLowerCase().includes(q)) matchType = 'キャラ名';
         else if (c.title?.toLowerCase().includes(q)) matchType = '称号';
         else if ([c.skill1_name, c.skill2_name, c.ultimate_name, c.passive_name].some(s => s?.toLowerCase().includes(q))) matchType = 'スキル名';
-        else if ([c.skill1_description, c.skill2_description, c.ultimate_name, c.passive_description].some(s => s?.toLowerCase().includes(q))) matchType = 'スキル説明';
+        else if ([c.skill1_description, c.skill2_description, c.ultimate_description, c.passive_description].some(s => s?.toLowerCase().includes(q))) matchType = 'スキル説明';
         else if (c.lore?.toLowerCase().includes(q)) matchType = 'ストーリー';
         out.push({ kind: 'char', item: c, matchType });
       }
