@@ -42,6 +42,7 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="/characters" element={<CharacterList />} />
         <Route path="/characters/:id" element={<CharacterDetail />} />
         <Route path="/search" element={<CharacterSearch />} />
