@@ -1,0 +1,42 @@
+{
+  "name": "SkillTerm",
+  "type": "object",
+  "properties": {
+    "term": {
+      "type": "string",
+      "description": "\u7528\u8a9e\u540d"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "\u30d0\u30d5",
+        "\u30c7\u30d0\u30d5",
+        "\u72b6\u614b\u7570\u5e38",
+        "\u5c5e\u6027\u52b9\u679c",
+        "\u6226\u95d8\u30e1\u30ab\u30cb\u30af\u30b9",
+        "\u305d\u306e\u4ed6"
+      ],
+      "description": "\u30ab\u30c6\u30b4\u30ea"
+    },
+    "description": {
+      "type": "string",
+      "description": "\u7528\u8a9e\u306e\u8a73\u7d30\u8aac\u660e"
+    },
+    "icon": {
+      "type": "string",
+      "description": "\u30a2\u30a4\u30b3\u30f3URL"
+    },
+    "related_characters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u95a2\u9023\u30ad\u30e3\u30e9\u30af\u30bf\u30fcID"
+    }
+  },
+  "required": [
+    "term",
+    "category",
+    "description"
+  ]
+}
