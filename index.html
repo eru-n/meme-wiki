@@ -1313,26 +1313,762 @@
 </div>
 
 <script>
-// グローバルキャラクター配列（各キャラファイルが push する）
+
+// ===== CHARACTER DATA =====
 const CHAR_DATA = [];
-</script>
+// ============================================================
+// キャラクターデータ: アムレート (ID: 1)
+// 新しいキャラを追加する場合はこのファイルをコピーして
+// CHAR_DATA.push({ ... }) の中身を書き換えてください。
+// ============================================================
+CHAR_DATA.push(
+{ id:1, name:'アムレート', element:'藍', class:'ソーサラー', tags:['buff'],
+    quote:'きっとまた会えるって、信じてるから', title:'虚月の導師', sub:'深淵の探求者',
+    gradient:'portrait-gradient-1', status:{hp:8240,atk:1860,def:920,spd:110},
+    profile:{height:'167cm',weight:'52kg',blood:'AB型',birthday:'3月24日',desc:'からきたガンマン。彷徨える魂を導く使命を帯びて現れた謎めいた術士。その瞳は夜空を映す鏡のようで、触れた者の心の底を見通すと言われている。信じ続ける意志の強さで仲間を支え、戦場に月光を呼ぶ。'},
+    skills:{
+      サタン:[
+        {name:'アクティブスキル1',ct:4,desc:'対象に<kw data-kw="軽減">軽減</kw>の呪印を付与しながら魔法攻撃を行う。詠唱中は移動速度が低下するが、発動後に周囲の味方のMPを回復する効果を持つ。',summary:'単体攻撃＋周囲MP回復。軽減付き。'},
+        {name:'アクティブスキル2',ct:4,desc:'広範囲への魔法爆発を引き起こし、命中した敵の防御力を一定時間低下させる。連続使用で威力が増加する。',summary:'広範囲攻撃＋防御ダウン。重ねがけで威力増加。'},
+        {name:'パッシブスキル1',ct:null,desc:'月光の加護：夜間、全ステータスが5%上昇する。バトル開始時、藍属性の仲間1人にシールドを付与。',summary:'夜間全ステ+5%。開幕シールド付与。'},
+        {name:'パッシブスキル2',ct:null,desc:'深淵の眼：毎ターン終了時、最もHPが低い味方のHPを少量回復する。',summary:'毎ターン最低HP味方をわずかに回復。'},
+        {name:'専用武器',ct:null,desc:'【サタンの囁き】装備時、アクティブスキル1の追加効果として対象のデバフ数に応じてダメージが増加する。',summary:'デバフ数連動ダメージ＋毎ターン全体魔法ダメージ。'},
+      ],
+      ミカエル:[
+        {name:'アクティブスキル1',ct:4,desc:'対象に<kw data-kw="軽減">軽減</kw>の祝福を付与しながら聖なる魔法攻撃を行う。命中時、スキルを再使用できる確率が20%ある。',summary:'単体攻撃＋確率スキル再使用。軽減付き。'},
+        {name:'アクティブスキル2',ct:4,desc:'聖なる光の範囲攻撃。命中した全ての敵のバフを1つ解除する。',summary:'広範囲攻撃＋バフ解除。'},
+        {name:'パッシブスキル1',ct:null,desc:'天使の加護：戦闘開始時、藍属性の仲間全員の回復量を15%上昇させる。',summary:'開幕藍属性仲間の回復量+15%。'},
+        {name:'パッシブスキル2',ct:null,desc:'浄化の光：毎ターン終了時、最もデバフを多く受けている味方のデバフを1つ解除する。',summary:'毎ターンデバフ最多の味方を浄化。'},
+        {name:'専用武器',ct:null,desc:'【ミカエルの聖剣】装備時、アクティブスキル1の再使用確率が35%に上昇。回復スキル使用時に味方全体のATKを5%上昇させる（重複上限30%）。',summary:'再使用確率UP。回復連動で全体ATK+5%（最大30%）。'},
+      ],
+      メタトロン:[
+        {name:'アクティブスキル1',ct:4,desc:'対象に<kw data-kw="軽減">軽減</kw>の封印を付与しながら虚空の魔法攻撃を行う。封印状態の敵に再度攻撃すると追加ダメージが発生する。',summary:'単体攻撃＋封印付与。封印済み対象へ追加ダメージ。'},
+        {name:'アクティブスキル2',ct:4,desc:'虚空の爆発。範囲内の敵のスキルCTを2増加させる。',summary:'広範囲攻撃＋CT妨害（+2）。'},
+        {name:'パッシブスキル1',ct:null,desc:'書記の加護：自身のスキルCTが2以上の時、全ダメージが10%上昇する。',summary:'CT2以上のとき全ダメ+10%。'},
+        {name:'パッシブスキル2',ct:null,desc:'知識の継承：バトル終了後、獲得経験値が5%増加する。',summary:'バトル後獲得EXP+5%。'},
+        {name:'専用武器',ct:null,desc:'【メタトロンの石版】装備時、アクティブスキル2のCT妨害量が3に増加。妨害状態の敵の数×2%のATKが上昇する（最大10%）。',summary:'CT妨害+3に強化。妨害敵数×2% ATK上昇（最大10%）。'},
+      ],
+    },
+    voices:{ホーム:['はじめまして、よろしく','今日も頑張ろう','また来てくれたんだ','一緒にいると心強い','もう少しだけ、ここにいて'],戦闘:['行くよ！','これで終わり','怯まないで']},
+    lament:{タイトル:['ああああああああ','ああああああああ','あああああああああああ','あああああああ','ああああああああああああ'],メモリー:['あああああああああ','あああああああ']},
+  }
+);
 
-<!-- ▼▼ キャラクターデータ: 1キャラ＝1ファイル ▼▼ -->
-<script src="data/chars/001_アムレート.js"></script>
-<script src="data/chars/002_ヴェルタ.js"></script>
-<script src="data/chars/003_シルフィ.js"></script>
-<script src="data/chars/004_ゼノス.js"></script>
-<script src="data/chars/005_リュナ.js"></script>
-<script src="data/chars/006_カルロス.js"></script>
+// ============================================================
+// キャラクターデータ: ヴェルタ (ID: 2)
+// 新しいキャラを追加する場合はこのファイルをコピーして
+// CHAR_DATA.push({ ... }) の中身を書き換えてください。
+// ============================================================
+CHAR_DATA.push(
+{ id:2, name:'ヴェルタ', element:'紅', class:'ウォーリア', tags:['buff','debuff'],
+    quote:'炎は全てを焼き尽くし、新たな始まりを告げる', title:'灼熱の剣士', sub:'炎獄の使徒',
+    gradient:'portrait-gradient-2', status:{hp:9800,atk:2200,def:1100,spd:98},
+    profile:{height:'182cm',weight:'78kg',blood:'O型',birthday:'7月15日',desc:'炎の中に生まれた戦士。幼い頃から炎を操る力を持ち、赤焔騎士団の最年少幹部として名を馳せた。熱血漢に見えるが実は細やかな気配りができる人物。'},
+    skills:{
+      サタン:[{name:'アクティブスキル1',ct:3,desc:'烈火の一閃：前方に炎の斬撃を放つ。ヒット数に応じてバフが付与される。',summary:'前方斬撃＋ヒット数バフ。'},{name:'アクティブスキル2',ct:6,desc:'炎獄解放：周囲に爆炎を展開し、<kw data-kw="継続ダメージ">継続ダメージ</kw>を与え続ける。',summary:'周囲爆炎＋継続ダメージ。'},{name:'パッシブスキル1',ct:null,desc:'炎の魂：HP50%以下の時、ATKが20%上昇する。',summary:'HP50%以下でATK+20%。'},{name:'パッシブスキル2',ct:null,desc:'炎纏い：攻撃時10%の確率で敵に燃焼状態を付与。',summary:'攻撃時10%で燃焼付与。'},{name:'専用武器',ct:null,desc:'【サタンの業剣】装備時、燃焼状態の敵へのダメージが15%増加。',summary:'燃焼敵へのダメ+15%。'}],
+      ミカエル:[{name:'アクティブスキル1',ct:3,desc:'聖炎の斬撃：前方に聖なる炎の剣を放つ。',summary:'前方聖炎攻撃。'},{name:'アクティブスキル2',ct:6,desc:'炎の聖域：周囲に炎の結界を展開し、範囲内の味方のATKを上昇させる。',summary:'周囲味方ATKアップ。'},{name:'パッシブスキル1',ct:null,desc:'守護の炎：仲間が攻撃を受けた時、自身がかばう確率30%。',summary:'30%確率でかばう。'},{name:'パッシブスキル2',ct:null,desc:'聖炎纏い：攻撃時に仲間のHPを少量回復。',summary:'攻撃時に仲間HP微回復。'},{name:'専用武器',ct:null,desc:'【ミカエルの炎盾】装備時、かばう確率が50%に上昇。',summary:'かばう確率50%に。'}],
+      メタトロン:[{name:'アクティブスキル1',ct:3,desc:'封印の炎斬：前方に炎の斬撃。命中するとスキルCTを増加。',summary:'前方攻撃＋CT妨害。'},{name:'アクティブスキル2',ct:6,desc:'炎獄の封鎖：周囲の敵のスキルを一定時間封印する。',summary:'周囲敵スキル封印。'},{name:'パッシブスキル1',ct:null,desc:'封炎の魂：封印状態の敵へのダメージ+10%。',summary:'封印敵へのダメ+10%。'},{name:'パッシブスキル2',ct:null,desc:'炎封纏い：攻撃時5%で敵を封印。',summary:'攻撃時5%で封印付与。'},{name:'専用武器',ct:null,desc:'【メタトロンの炎鎖】装備時、封印付与率が20%に上昇。',summary:'封印付与率20%に。'}],
+    },
+    voices:{ホーム:['燃えてるか？','いつでも行くぞ','待ってたぜ','弱音は吐くな','俺が守ってやる'],戦闘:['燃やし尽くせ！','逃がさん','全力でいくぞ']},
+    lament:{タイトル:['炎よ燃えろ','消えない記憶','あなたのために','誓いの剣','終わらない戦い'],メモリー:['過去の傷跡','新たな誓い']},
+  }
+);
 
-<!-- ▼▼ 共通データ ▼▼ -->
-<script src="data/keywords.js"></script>
-<script src="data/skill_effects.js"></script>
-<script src="data/maps.js"></script>
-<script src="data/relationships.js"></script>
-<script src="data/index.js"></script>
+// ============================================================
+// キャラクターデータ: シルフィ (ID: 3)
+// 新しいキャラを追加する場合はこのファイルをコピーして
+// CHAR_DATA.push({ ... }) の中身を書き換えてください。
+// ============================================================
+CHAR_DATA.push(
+{ id:3, name:'シルフィ', element:'翠', class:'スナイパー', tags:['buff'],
+    quote:'風に乗せた矢は、必ず届く。信じてさえいれば', title:'翠風の狙撃手', sub:'森林の守護者',
+    gradient:'portrait-gradient-3', status:{hp:7600,atk:1980,def:780,spd:130},
+    profile:{height:'162cm',weight:'48kg',blood:'A型',birthday:'5月8日',desc:'森の中で育った弓の名手。風の流れを読む能力に長け、いかなる天候でも正確な狙撃を可能にする。翠葉遊撃隊の中でも群を抜くスピードを誇る。'},
+    skills:{
+      サタン:[{name:'アクティブスキル1',ct:3,desc:'翠嵐の矢：遠距離から風の属性矢を放つ。貫通効果により複数の敵を同時にヒットする。',summary:'貫通矢。複数ヒット。'},{name:'アクティブスキル2',ct:5,desc:'嵐の号令：範囲内の味方全員の攻撃速度を上昇させる。',summary:'全体攻撃速度UP。'},{name:'パッシブスキル1',ct:null,desc:'風読み：SPDが高いほどクリティカル率が上昇する。',summary:'SPD連動クリ率UP。'},{name:'パッシブスキル2',ct:null,desc:'森の加護：翠属性の仲間のSPDを5%上昇させる。',summary:'翠仲間SPD+5%。'},{name:'専用武器',ct:null,desc:'【サタンの鋭弓】装備時、貫通した敵の数だけクリダメが5%増加（最大25%）。',summary:'貫通数×5%クリダメ（最大25%）。'}],
+      ミカエル:[{name:'アクティブスキル1',ct:3,desc:'聖なる矢：単体への高威力狙撃。命中時に対象のデバフを1つ解除。',summary:'単体高威力＋デバフ解除。'},{name:'アクティブスキル2',ct:5,desc:'天の加護：範囲内の味方全員のDEFを上昇させる。',summary:'全体DEF UP。'},{name:'パッシブスキル1',ct:null,desc:'清風：毎ターン開始時、最もHPが低い味方のデバフを解除する。',summary:'毎ターン最低HP味方デバフ解除。'},{name:'パッシブスキル2',ct:null,desc:'守護の翠：自身が攻撃を受けた時、確率でダメージを30%軽減。',summary:'被ダメ30%軽減（確率）。'},{name:'専用武器',ct:null,desc:'【ミカエルの弓】装備時、清風の効果が全体に拡大。',summary:'清風が全体デバフ解除に拡大。'}],
+      メタトロン:[{name:'アクティブスキル1',ct:3,desc:'封じの矢：単体への狙撃。命中するとスキルCTを増加。',summary:'単体攻撃＋CT妨害。'},{name:'アクティブスキル2',ct:5,desc:'嵐の記録：範囲内の敵のバフ数に応じたダメージを与える。',summary:'敵バフ数連動ダメージ。'},{name:'パッシブスキル1',ct:null,desc:'封風：自身のスキルがCT妨害を付与した敵へのダメージ+15%。',summary:'CT妨害付与済み敵へのダメ+15%。'},{name:'パッシブスキル2',ct:null,desc:'風の知恵：バトル終了後EXP+3%。',summary:'バトル後EXP+3%。'},{name:'専用武器',ct:null,desc:'【メタトロンの風書】装備時、CT妨害付与量が+1増加。',summary:'CT妨害付与量+1。'}],
+    },
+    voices:{ホーム:['ここにいるよ','風が気持ちいい','どこへ行こうか','一緒に飛ぼう','待ってたよ'],戦闘:['風になれ！','見えた！','外さない']},
+    lament:{タイトル:['翠の風に乗って','届かぬ想い','森の声を聴いて','雨上がりの光','消えない足跡'],メモリー:['帰れない故郷','新たな仲間']},
+  }
+);
 
-<script>
+// ============================================================
+// キャラクターデータ: ゼノス (ID: 4)
+// 新しいキャラを追加する場合はこのファイルをコピーして
+// CHAR_DATA.push({ ... }) の中身を書き換えてください。
+// ============================================================
+CHAR_DATA.push(
+{ id:4, name:'ゼノス', element:'黄', class:'ウォーリア', tags:['debuff'],
+    quote:'俺の雷は正義の光、悪を穿つ閃光だ', title:'雷鳴の将軍', sub:'天雷の化身',
+    gradient:'portrait-gradient-4', status:{hp:10200,atk:2400,def:1300,spd:90},
+    profile:{height:'190cm',weight:'95kg',blood:'B型',birthday:'11月21日',desc:'帝国の英雄として知られる雷使いの将軍。鋼の意志と圧倒的な武力で敵を制圧する。部下からの信頼は絶大で、その一言で軍の士気が大きく変わる。'},
+    skills:{
+      サタン:[{name:'アクティブスキル1',ct:2,desc:'雷轟剣：雷属性の強力な一撃を放つ。スタン効果あり。',summary:'単体大ダメ＋スタン。'},{name:'アクティブスキル2',ct:8,desc:'天雷降臨：天から複数の落雷を召喚し、広範囲に大ダメージ。',summary:'広範囲大ダメージ。'},{name:'パッシブスキル1',ct:null,desc:'雷帝の威圧：バトル開始時、敵全体のATKを5%低下させる。',summary:'開幕全体ATKデバフ。'},{name:'パッシブスキル2',ct:null,desc:'不屈の将：HP30%以下の時、ダメージを受けない（1回）。',summary:'HP30%以下で1回無敵。'},{name:'専用武器',ct:null,desc:'【サタンの雷槌】装備時、スタン中の敵へのダメージが20%増加。',summary:'スタン敵へのダメ+20%。'}],
+      ミカエル:[{name:'アクティブスキル1',ct:2,desc:'聖雷の剣：聖なる雷の一撃。命中時に対象のデバフを解除しつつダメージ。',summary:'単体攻撃＋デバフ解除。'},{name:'アクティブスキル2',ct:8,desc:'天の裁き：広範囲の浄化雷撃。命中した敵のバフを全解除。',summary:'広範囲攻撃＋バフ全解除。'},{name:'パッシブスキル1',ct:null,desc:'護国の意志：仲間が戦闘不能になると自身のATKが10%上昇（最大30%）。',summary:'仲間倒されるごとにATK+10%（最大30%）。'},{name:'パッシブスキル2',ct:null,desc:'雷の守護：毎ターン開始時、仲間全体のHPを少量回復。',summary:'毎ターン全体HP微回復。'},{name:'専用武器',ct:null,desc:'【ミカエルの霹靂盾】装備時、護国の意志の上限が50%に上昇。',summary:'ATK上昇上限が50%に。'}],
+      メタトロン:[{name:'アクティブスキル1',ct:2,desc:'封雷の一撃：封印の雷撃。命中するとスキルCTを2増加。',summary:'単体攻撃＋CT+2妨害。'},{name:'アクティブスキル2',ct:8,desc:'天雷の封縛：広範囲に落雷を浴びせ、全対象のスキルを一定時間封印する。',summary:'広範囲攻撃＋全体封印。'},{name:'パッシブスキル1',ct:null,desc:'封雷帝：封印状態の敵が多いほど自身のATKが上昇（1体につき5%、最大20%）。',summary:'封印敵数×5% ATK UP（最大20%）。'},{name:'パッシブスキル2',ct:null,desc:'雷の記録：バトル終了後EXP+8%。',summary:'バトル後EXP+8%。'},{name:'専用武器',ct:null,desc:'【メタトロンの雷典】装備時、封印付与ターン数が1増加。',summary:'封印持続+1ターン。'}],
+    },
+    voices:{ホーム:['何か用か','いつでも来い','俺はここにいる','お前を守る','雷に誓って'],戦闘:['雷鳴よ轟け！','終わりだ','俺の怒りを受けろ']},
+    lament:{タイトル:['雷鳴の誓い','嵐の前夜','閃光の記憶','守れなかった日','再びの誓い'],メモリー:['戦場の傷跡','平和への祈り']},
+  }
+);
+
+// ============================================================
+// キャラクターデータ: リュナ (ID: 5)
+// 新しいキャラを追加する場合はこのファイルをコピーして
+// CHAR_DATA.push({ ... }) の中身を書き換えてください。
+// ============================================================
+CHAR_DATA.push(
+{ id:5, name:'リュナ', element:'藍', class:'ソーサラー', tags:['debuff'],
+    quote:'月明かりの下で、あなたに教えてあげる', title:'月詠みの魔女', sub:'夜霧の呪術師',
+    gradient:'portrait-gradient-5', status:{hp:7200,atk:1720,def:840,spd:118},
+    profile:{height:'155cm',weight:'44kg',blood:'O型',birthday:'9月17日',desc:'古代の呪術書を操る謎の魔女。その正体は月の神殿に仕える巫女で、月の動きによって使える呪術が変化する。無邪気に見えて実は深い洞察力を持つ。'},
+    skills:{
+      サタン:[{name:'アクティブスキル1',ct:4,desc:'月詠呪：対象に藍属性の呪いを付与し、一定時間<kw data-kw="継続ダメージ">継続ダメージ</kw>を与え続ける。',summary:'単体呪い＋継続ダメージ。'},{name:'アクティブスキル2',ct:5,desc:'霧の帳：味方全体に霧の結界を展開し、ダメージを軽減する。',summary:'全体ダメージ軽減。'},{name:'パッシブスキル1',ct:null,desc:'月の呪縛：デバフを付与した敵へのダメージが10%増加する。',summary:'デバフ敵へのダメ+10%。'},{name:'パッシブスキル2',ct:null,desc:'夜霧の加護：藍属性の仲間全員の状態異常耐性を15%上昇させる。',summary:'藍仲間状態異常耐性+15%。'},{name:'専用武器',ct:null,desc:'【サタンの月書】装備時、継続ダメージの量が25%増加する。',summary:'継続ダメージ量+25%。'}],
+      ミカエル:[{name:'アクティブスキル1',ct:4,desc:'聖月の恵み：対象に回復呪術を付与し、毎ターンHPを回復させる。',summary:'単体継続回復付与。'},{name:'アクティブスキル2',ct:5,desc:'浄化の霧：味方全体のデバフを1つずつ解除し、HPを回復する。',summary:'全体デバフ解除＋HP回復。'},{name:'パッシブスキル1',ct:null,desc:'月の慈悲：回復スキル使用時、対象の次の被ダメージを20%軽減するシールドを付与。',summary:'回復時に被ダメ20%軽減シールド付与。'},{name:'パッシブスキル2',ct:null,desc:'清浄の霧：バトル開始時、全味方のデバフを1つ解除。',summary:'開幕全体デバフ解除。'},{name:'専用武器',ct:null,desc:'【ミカエルの聖月石】装備時、月の慈悲のシールド効果が35%に上昇。',summary:'シールド被ダメ軽減35%に。'}],
+      メタトロン:[{name:'アクティブスキル1',ct:4,desc:'封じの月符：対象にCT妨害呪術を付与し、スキルCTを増加させる。',summary:'単体CT増加呪術。'},{name:'アクティブスキル2',ct:5,desc:'霧の封鎖：味方全体にシールド付与＋範囲内の敵のCTを増加させる。',summary:'全体シールド＋敵CT増加。'},{name:'パッシブスキル1',ct:null,desc:'月の封縛：CT妨害中の敵へのダメージ+12%。',summary:'CT妨害敵へのダメ+12%。'},{name:'パッシブスキル2',ct:null,desc:'霧の知識：バトル終了後EXP+5%。',summary:'バトル後EXP+5%。'},{name:'専用武器',ct:null,desc:'【メタトロンの霧典】装備時、霧の封鎖のCT増加量が+1増加。',summary:'CT増加量+1追加。'}],
+    },
+    voices:{ホーム:['月を見てた？','ねえ話して','一人は寂しいよ','今夜も綺麗な月','秘密を教えてあげる'],戦闘:['呪いよ飛べ！','見えてるよ','逃げられない']},
+    lament:{タイトル:['月詠みの唄','霧の向こう側','消えない呪い','夜明けを待って','月に誓う言葉'],メモリー:['失われた記憶','再会の夢']},
+  }
+);
+
+// ============================================================
+// キャラクターデータ: カルロス (ID: 6)
+// 新しいキャラを追加する場合はこのファイルをコピーして
+// CHAR_DATA.push({ ... }) の中身を書き換えてください。
+// ============================================================
+CHAR_DATA.push(
+{ id:6, name:'カルロス', element:'紅', class:'スナイパー', tags:['debuff'],
+    quote:'一発で終わらせる。それが俺の流儀だ', title:'鉄火の狙撃者', sub:'業炎の執行者',
+    gradient:'portrait-gradient-1', status:{hp:7800,atk:2050,def:820,spd:125},
+    profile:{height:'178cm',weight:'72kg',blood:'A型',birthday:'2月5日',desc:'元軍人の傭兵狙撃手。冷静沈着な判断力と卓越した射撃技術で知られる。感情を表に出さないが、仲間には厚い信頼を寄せている。'},
+    skills:{
+      サタン:[{name:'アクティブスキル1',ct:3,desc:'炎弾射撃：高速の炎属性弾を放つ。クリティカル確率が高い。',summary:'高クリ単体射撃。'},{name:'アクティブスキル2',ct:6,desc:'焼夷弾：着弾地点に炎上エリアを設置する。踏んだ敵に<kw data-kw="継続ダメージ">継続ダメージ</kw>。',summary:'炎上エリア設置＋継続ダメージ。'},{name:'パッシブスキル1',ct:null,desc:'狙撃眼：クリティカル発生時、追加で対象のDEFを5%低下させる。',summary:'クリ時DEFデバフ。'},{name:'パッシブスキル2',ct:null,desc:'炎の弾丸：攻撃時15%の確率で弾薬を2発連続射出する。',summary:'15%で2連射。'},{name:'専用武器',ct:null,desc:'【サタンの銃火】装備時、クリティカルダメージが20%増加。',summary:'クリダメ+20%。'}],
+      ミカエル:[{name:'アクティブスキル1',ct:3,desc:'聖炎弾：単体への聖なる炎弾。命中で対象のデバフ1つ解除。',summary:'単体攻撃＋デバフ解除。'},{name:'アクティブスキル2',ct:6,desc:'聖域爆弾：範囲内の味方のATKを上昇させる炎のフィールドを設置。',summary:'味方ATK UPフィールド設置。'},{name:'パッシブスキル1',ct:null,desc:'守護の弾丸：仲間が攻撃を受けた時、確率で代わりにダメージを受ける。',summary:'確率でかばう。'},{name:'パッシブスキル2',ct:null,desc:'聖炎纏い：自身が回復を受けた時、ATKが3%上昇（最大15%）。',summary:'回復を受けるたびATK+3%（最大15%）。'},{name:'専用武器',ct:null,desc:'【ミカエルの聖砲】装備時、聖炎纏いの上限が25%に上昇。',summary:'聖炎纏いATK上限25%に。'}],
+      メタトロン:[{name:'アクティブスキル1',ct:3,desc:'封炎弾：命中するとスキルCTを増加させる炎弾。',summary:'単体攻撃＋CT妨害。'},{name:'アクティブスキル2',ct:6,desc:'封鎖爆弾：着弾地点の敵のスキルを一定時間封印する。',summary:'エリア封印設置。'},{name:'パッシブスキル1',ct:null,desc:'封炎眼：封印状態の敵へのクリダメが15%増加。',summary:'封印敵へのクリダメ+15%。'},{name:'パッシブスキル2',ct:null,desc:'炎記録：バトル終了後EXP+4%。',summary:'バトル後EXP+4%。'},{name:'専用武器',ct:null,desc:'【メタトロンの焰典】装備時、封印エリアの持続時間が1ターン延長。',summary:'封印エリア持続+1ターン。'}],
+    },
+    voices:{ホーム:['何だ','まあいいか','お前もか','邪魔するな','一人にしてくれ'],戦闘:['狙い通り','終わった','次だ']},
+    lament:{タイトル:['引き金の重さ','消えない硝煙','誰かのために','終わらない任務','夜明けの銃声'],メモリー:['戦場の夢','帰れない日々']},
+  },
+];
+
+let currentChar = null, currentWeapon = 'サタン', summaryOn = false;
+
+function renderCards(chars) {
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = '';
+  chars.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'char-card';
+    card.dataset.element = c.element; card.dataset.class = c.class;
+    card.dataset.name = c.name; card.dataset.tags = (c.tags||[]).join(',');
+    card.innerHTML = `<div class="card-inner"><div class="card-portrait-placeholder ${c.gradient}" style="position:relative;"><div class="portrait-silhouette"></div></div><div class="card-icon">✦</div><div class="card-element el-${c.element}">${c.element}</div><div class="card-name">${c.name}</div></div>`;
+    card.addEventListener('click', () => openDetail(c));
+    grid.appendChild(card);
+  });
+}
+
+// Multi-select filters for the "all" list page
+const listFilters = new Set();
+
+function toggleListFilter(key, btn) {
+  if (listFilters.has(key)) { listFilters.delete(key); btn.classList.remove('active'); }
+  else { listFilters.add(key); btn.classList.add('active'); }
+  applyListFilters();
+}
+
+function resetListFilters() {
+  listFilters.clear();
+  document.querySelectorAll('.filter-bar .filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+  applyListFilters();
+}
+
+function applyListFilters() {
+  const nameVal = document.getElementById('nameSearch').value.trim();
+  const elements = ['藍','紅','翠','黄'];
+  const classes  = ['ウォーリア','スナイパー','ソーサラー'];
+  const activeElems   = [...listFilters].filter(k => elements.includes(k));
+  const activeClasses = [...listFilters].filter(k => classes.includes(k));
+
+  document.querySelectorAll('.char-card').forEach(card => {
+    let show = true;
+    if (activeElems.length > 0)   show = show && activeElems.includes(card.dataset.element);
+    if (activeClasses.length > 0) show = show && activeClasses.includes(card.dataset.class);
+    if (nameVal) show = show && card.dataset.name.includes(nameVal);
+    card.classList.toggle('hidden', !show);
+  });
+}
+
+// Keep filterChars for sort sidebar (buff/debuff) - simplified version
+let currentFilter = 'all';
+function filterChars(type, btn) {
+  currentFilter = type;
+  if (['buff','debuff'].includes(type)) {
+    document.querySelectorAll('.char-card').forEach(card => {
+      card.classList.toggle('hidden', !card.dataset.tags.includes(type));
+    });
+  }
+}
+function filterByName() { applyListFilters(); }
+function sortCharacters() { renderCards([...characters].sort((a,b) => a.name.localeCompare(b.name,'ja'))); }
+
+function openDetail(char) {
+  currentChar = char; currentWeapon = 'サタン'; summaryOn = false;
+  document.getElementById('detailName').textContent = char.name;
+  document.getElementById('detailQuote').textContent = char.quote;
+  document.getElementById('detailTitle').textContent = char.title;
+  document.getElementById('detailSub').textContent = char.sub;
+  document.getElementById('detailPortrait').innerHTML = `<div class="portrait-icon-large">🔥</div><div class="${char.gradient}" style="width:100%;height:100%;"></div><div class="portrait-silhouette"></div>`;
+  const st = char.status;
+  const sd = char.sortData || {};
+  document.getElementById('st-hp').textContent = (st.hp||0).toLocaleString();
+  document.getElementById('st-atk').textContent = (st.atk||0).toLocaleString();
+  document.getElementById('st-def').textContent = (st.def||0).toLocaleString();
+  document.getElementById('st-spd').textContent = st.spd||0;
+  // Use sortData (stable, computed once) for derived stats
+  const sd2 = char.sortData || {};
+  document.getElementById('st-mp').textContent = (sd2.mp||0).toLocaleString();
+  document.getElementById('st-evade').textContent = sd2.evade||0;
+  document.getElementById('st-hit').textContent = sd2.hit||0;
+  document.getElementById('st-ct').textContent = (sd2.ct||0) + '%';
+  document.getElementById('st-crit').textContent = (sd2.crit||0) + '%';
+  document.getElementById('st-critd').textContent = (sd2.critd||0) + '%';
+  document.getElementById('st-pen').textContent = (sd2.pen||0) + '%';
+  document.getElementById('st-res').textContent = (sd2.res||0) + '%';
+  document.getElementById('st-heal').textContent = (sd2.heal||0).toLocaleString();
+  document.getElementById('st-mpreg').textContent = (sd2.mpreg||0).toLocaleString();
+  document.getElementById('st-move').textContent = sd2.move||0;
+  document.getElementById('st-wt').textContent = sd2.wt||0;
+  document.getElementById('statusPanel').classList.remove('open');
+  document.getElementById('pf-height').textContent = char.profile.height;
+  document.getElementById('pf-weight').textContent = char.profile.weight;
+  document.getElementById('pf-blood').textContent = char.profile.blood;
+  document.getElementById('pf-bday').textContent = char.profile.birthday;
+  document.getElementById('pf-desc').textContent = char.profile.desc;
+  document.getElementById('memoEditor').innerHTML = '';
+  document.getElementById('summaryToggle').classList.remove('checked');
+  document.getElementById('skillSummaryText').classList.remove('show');
+  document.querySelectorAll('.weapon-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.weapon-tab-btn').classList.add('active');
+  renderSkills(); renderVoice(); renderLament();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.tab-btn').classList.add('active');
+  document.getElementById('tab-skill').classList.add('active');
+  showPage('detail');
+}
+
+function renderSkills() {
+  if (!currentChar) return;
+  const skills = currentChar.skills[currentWeapon] || [];
+  document.getElementById('skillContent').innerHTML = skills.map(s => {
+    const descHtml = s.desc.replace(/<kw data-kw="([^"]+)">([^<]+)<\/kw>/g, (m,kw,text) =>
+      `<span class="skill-keyword" onclick="showKeyword('${kw}',event)">${text}</span>`);
+    return `<div class="skill-block"><div class="skill-header"><span class="skill-name">${s.name}</span>${s.ct?`<span class="skill-ct">CT ${s.ct}</span>`:''}</div><div class="skill-desc">${descHtml}</div></div>`;
+  }).join('');
+  const summaryLines = skills.map(s => `【${s.name}】${s.summary}`).join('<br>');
+  document.getElementById('skillSummaryText').innerHTML = `<b>専用武器：${currentWeapon}</b><br>${summaryLines}`;
+  if (summaryOn) document.getElementById('skillSummaryText').classList.add('show');
+}
+
+function renderVoice() {
+  if (!currentChar) return;
+  let first = true;
+  document.getElementById('voiceContent').innerHTML = Object.entries(currentChar.voices).map(([sec, lines]) => {
+    const open = first; first = false;
+    return `<div class="accordion-section"><div class="accordion-header" onclick="toggleAccordion(this)"><span class="accordion-arrow">${open?'▽':'▷'}</span><span>${sec}</span></div><div class="accordion-content ${open?'open':''}"><div class="voice-list">${lines.map(l=>`<div class="voice-item"><span class="voice-bullet">・</span><span>${l}</span></div>`).join('')}</div></div></div>`;
+  }).join('');
+}
+
+function renderLament() {
+  if (!currentChar) return;
+  let first = true;
+  document.getElementById('lamentContent').innerHTML = Object.entries(currentChar.lament).map(([sec, lines]) => {
+    const open = first; first = false;
+    const notes = (currentChar.lamentNotes && currentChar.lamentNotes[sec]) || [];
+    return `<div class="accordion-section"><div class="accordion-header" onclick="toggleAccordion(this)"><span class="accordion-arrow">${open?'▽':'▷'}</span><span>${sec}</span></div><div class="accordion-content ${open?'open':''}"><div class="lament-list">${lines.map((l,i)=>`<div class="lament-line-wrap"><span class="lament-line-text">${l}</span><span class="lament-note-static">${(notes[i]||'')}</span></div>`).join('')}</div></div></div>`;
+  }).join('');
+}
+
+function toggleAccordion(header) {
+  const content = header.nextElementSibling;
+  const isOpen = content.classList.toggle('open');
+  header.querySelector('.accordion-arrow').textContent = isOpen ? '▽' : '▷';
+}
+function toggleStatus() { document.getElementById('statusPanel').classList.toggle('open'); }
+function toggleSummary() {
+  summaryOn = !summaryOn;
+  document.getElementById('summaryToggle').classList.toggle('checked', summaryOn);
+  document.getElementById('skillSummaryText').classList.toggle('show', summaryOn);
+}
+function selectWeapon(weapon, btn) {
+  currentWeapon = weapon;
+  document.querySelectorAll('.weapon-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSkills();
+}
+function showKeyword(kw, e) {
+  e.stopPropagation();
+  const popup = document.getElementById('keywordPopup');
+  document.getElementById('kwTitle').textContent = kw;
+  document.getElementById('kwBody').textContent = keywords[kw] || '説明がありません。';
+
+  // スキル効果ページに該当するものがあればリンクを表示
+  let linkHtml = '';
+  if (typeof skillEffectData !== 'undefined') {
+    let found = null, foundType = '';
+    ['buff','debuff'].forEach(type => {
+      (skillEffectData[type]||[]).forEach(effect => {
+        if (effect.name === kw || (effect.keywords||[]).some(k => k === kw)) {
+          found = effect; foundType = type;
+        }
+      });
+    });
+    if (found) {
+      linkHtml = `<span class="keyword-popup-link" onclick="closeKeywordPopup(); showSkillList('${foundType}'); setTimeout(()=>openSkillDetail(skillEffectData['${foundType}'].find(e=>e.id==='${found.id}')),50);">→ スキル効果ページへ</span>`;
+    }
+  }
+  document.getElementById('kwLink').innerHTML = linkHtml;
+
+  popup.style.top = (e.clientY + 12) + 'px';
+  popup.style.left = Math.min(e.clientX, window.innerWidth - 300) + 'px';
+  popup.classList.add('open');
+}
+function closeKeywordPopup() { document.getElementById('keywordPopup').classList.remove('open'); }
+document.addEventListener('click', () => closeKeywordPopup());
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+}
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`tab-${name}`).classList.add('active');
+}
+function setSidebarActive(el) {
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+function execMemoCmd(cmd) { document.getElementById('memoEditor').focus(); document.execCommand(cmd, false, null); }
+function insertMemoImage() {
+  const url = prompt('画像URLを入力してください:');
+  if (url) { document.getElementById('memoEditor').focus(); document.execCommand('insertImage', false, url); }
+}
+
+function openSearchPanel() {
+  const val = document.getElementById('globalSearchInput').value.trim();
+  if (val) doGlobalSearch();
+  else { document.getElementById('searchResultsBody').innerHTML = '<div class="search-no-result">キーワードを入力してください</div>'; document.getElementById('searchPanel').classList.add('open'); }
+}
+function closeSearchPanel(e) {
+  if (!e.target.closest('.global-search-wrap') && !e.target.closest('.search-results-panel')) document.getElementById('searchPanel').classList.remove('open');
+}
+function doGlobalSearch() {
+  const val = document.getElementById('globalSearchInput').value.trim().toLowerCase();
+  if (!val) {
+    document.getElementById('searchResultsBody').innerHTML = '<div class="search-no-result">キーワードを入力してください</div>';
+    document.getElementById('searchPanel').classList.add('open');
+    return;
+  }
+
+  const results = [];
+
+  // --- キャラクターデータ全体を検索 ---
+  characters.forEach(c => {
+    const checks = [
+      { text: c.name,    type: 'キャラ名' },
+      { text: c.title,   type: '肩書き' },
+      { text: c.sub,     type: '肩書き' },
+      { text: c.quote,   type: 'セリフ' },
+      { text: c.element, type: '元素' },
+      { text: c.class,   type: 'クラス' },
+      { text: c.profile && c.profile.desc, type: 'プロフィール' },
+    ];
+    // lament lines
+    if (c.lament) Object.values(c.lament).flat().forEach(l => checks.push({text: l, type: 'ラメント'}));
+    // voice lines
+    if (c.voices) Object.values(c.voices).flat().forEach(l => checks.push({text: l, type: 'ボイス'}));
+    // skill descriptions
+    if (c.skills) Object.values(c.skills).flat().forEach(s => {
+      checks.push({text: s.name, type: 'スキル名'});
+      checks.push({text: s.desc.replace(/<[^>]+>/g,''), type: 'スキル説明'});
+      checks.push({text: s.summary, type: 'スキル要約'});
+    });
+
+    let matchType = '';
+    for (const {text, type} of checks) {
+      if (text && text.toLowerCase().includes(val)) { matchType = type; break; }
+    }
+    if (matchType) results.push({ kind: 'char', char: c, matchType });
+  });
+
+  // --- スキル効果ページを検索 ---
+  if (typeof skillEffectData !== 'undefined') {
+    ['buff','debuff'].forEach(type => {
+      (skillEffectData[type]||[]).forEach(effect => {
+        if (effect.name.toLowerCase().includes(val) || effect.desc.replace(/<[^>]+>/g,'').toLowerCase().includes(val)) {
+          results.push({ kind: 'skilleffect', effect, effectType: type });
+        }
+      });
+    });
+  }
+
+  if (results.length === 0) {
+    document.getElementById('searchResultsBody').innerHTML = `<div class="search-no-result">「${val}」に一致する結果が見つかりませんでした</div>`;
+  } else {
+    document.getElementById('searchResultsBody').innerHTML = results.map(r => {
+      if (r.kind === 'char') {
+        return `<div class="search-result-item" onclick="openDetail(characters.find(c=>c.id===${r.char.id})); document.getElementById('searchPanel').classList.remove('open');"><div class="search-result-thumb ${r.char.gradient}">🔥</div><div><div class="search-result-name">${r.char.name}</div><div class="search-result-sub">${r.char.title}</div></div><span class="search-result-tag">${r.matchType}</span></div>`;
+      } else {
+        return `<div class="search-result-item" onclick="showSkillList('${r.effectType}'); setTimeout(()=>openSkillDetail(skillEffectData['${r.effectType}'].find(e=>e.id==='${r.effect.id}')),50); document.getElementById('searchPanel').classList.remove('open');"><div class="search-result-thumb" style="background:#17171e;font-size:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-gold);">${r.effectType==='buff'?'＋':'－'}</div><div><div class="search-result-name">${r.effect.name}</div><div class="search-result-sub">スキル効果 · ${r.effectType.toUpperCase()}</div></div><span class="search-result-tag">スキル効果</span></div>`;
+      }
+    }).join('');
+  }
+  document.getElementById('searchPanel').classList.add('open');
+}
+
+
+// ===== THEME TOGGLE =====
+function toggleTheme() {
+  const root = document.documentElement;
+  const isLight = root.classList.toggle('light');
+  document.getElementById('themeIcon').textContent  = isLight ? '🌙' : '☀';
+  document.getElementById('themeLabel').textContent = isLight ? 'ダーク' : 'ライト';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+// Default: light mode. Only switch to dark if explicitly saved.
+(function() {
+  const saved = localStorage.getItem('theme');
+  const isLight = saved !== 'dark'; // default to light
+  if (isLight) {
+    document.documentElement.classList.add('light');
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    if (icon) icon.textContent  = '🌙';
+    if (label) label.textContent = 'ダーク';
+  }
+})();
+
+
+// ===== HOME PAGE =====
+function renderHome() {
+  document.getElementById('homeCharCount').textContent = characters.length;
+  const grid = document.getElementById('homeCharGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  characters.slice(0, 12).forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'home-char-chip';
+    chip.innerHTML = `
+      <div class="home-char-thumb">
+        <div class="home-char-thumb-inner ${c.gradient}">
+          <div class="portrait-silhouette"></div>
+        </div>
+      </div>
+      <div class="home-char-label">${c.name}</div>
+    `;
+    chip.addEventListener('click', () => {
+      openDetail(c);
+      setSidebarActive(document.querySelector('.sidebar-link'));
+    });
+    grid.appendChild(chip);
+  });
+}
+
+renderCards(characters);
+renderHome();
+
+// ===== SORT PAGE =====
+// Extend character data with extra sort fields
+characters.forEach(c => {
+  // parse numeric values from profile strings
+  const st = c.status;
+  c.sortData = {
+    hp:       st.hp,
+    atk:      st.atk,
+    def:      st.def,
+    spd:      st.spd,
+    mp:       st.mp || Math.round((st.atk||0)*0.6),
+    evade:    st.evade || Math.round((st.spd||0)*0.5+40),
+    hit:      st.hit  || Math.round((st.atk||0)*0.03+85),
+    ct:       st.ct   || (Math.floor(Math.random()*10+5)),
+    crit:     st.crit || (Math.floor(Math.random()*15+8)),
+    critd:    st.critd|| (Math.floor(Math.random()*40+120)),
+    pen:      st.pen  || (Math.floor(Math.random()*20+5)),
+    res:      st.res  || (Math.floor(Math.random()*20+10)),
+    heal:     st.heal || Math.round((st.def||0)*0.4+50),
+    mpreg:    st.mpreg|| (Math.floor(Math.random()*30+20)),
+    move:     st.move || Math.round((st.spd||0)*0.8+20),
+    wt:       st.wt   || Math.round(100-(st.spd||0)*0.1),
+    height:   parseInt(c.profile.height),
+    weight:   parseInt(c.profile.weight),
+    birthday: (() => {
+      const m = c.profile.birthday.match(/(\d+)月(\d+)日/);
+      return m ? parseInt(m[1]) * 100 + parseInt(m[2]) : 0;
+    })(),
+  };
+});
+
+const sortKeyLabels = {
+  hp:'HP', atk:'ATK', def:'DEF', spd:'SPD',
+  mp:'MP', evade:'回避', hit:'命中', ct:'CT短縮',
+  crit:'クリ率', critd:'クリダメ', pen:'貫通', res:'耐性',
+  heal:'回復力', mpreg:'魔力回復', move:'移動速度', wt:'WT',
+  height:'身長', weight:'体重', birthday:'誕生日',
+};
+const sortKeyUnits = {
+  hp:'', atk:'', def:'', spd:'',
+  mp:'', evade:'', hit:'', ct:'%',
+  crit:'%', critd:'%', pen:'%', res:'%',
+  heal:'', mpreg:'', move:'', wt:'',
+  height:'cm', weight:'kg', birthday:'',
+};
+let currentSortKey = 'spd';
+let sortFilters = new Set();
+
+function getSortVal(c, key) { return c.sortData[key] || 0; }
+
+function getStatLabel(c, key) {
+  if (key === 'height') return c.profile.height;
+  if (key === 'weight') return c.profile.weight;
+  if (key === 'birthday') return c.profile.birthday;
+  return getSortVal(c, key).toLocaleString() + sortKeyUnits[key];
+}
+
+function setSortKey(key, btn) {
+  currentSortKey = key;
+  document.querySelectorAll('#sortCriteriaGrid .sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSortResults();
+}
+
+function toggleSortFilter(key, btn) {
+  if (sortFilters.has(key)) { sortFilters.delete(key); btn.classList.remove('active'); }
+  else { sortFilters.add(key); btn.classList.add('active'); }
+  renderSortResults();
+}
+
+function renderSortResults() {
+  let list = [...characters];
+  if (sortFilters.size > 0) {
+    const _elements = ['藍','紅','翠','黄'];
+    const _classes  = ['ウォーリア','スナイパー','ソーサラー'];
+    const activeElems   = [...sortFilters].filter(k => _elements.includes(k));
+    const activeClasses = [...sortFilters].filter(k => _classes.includes(k));
+    // 元素同士はOR、クラス同士はOR、元素とクラス間はAND
+    list = list.filter(c => {
+      const elemOk   = activeElems.length   === 0 || activeElems.includes(c.element);
+      const classOk  = activeClasses.length === 0 || activeClasses.includes(c.class);
+      return elemOk && classOk;
+    });
+  }
+  list.sort((a, b) => {
+    if (currentSortKey === 'birthday') return getSortVal(a,'birthday') - getSortVal(b,'birthday');
+    return getSortVal(b, currentSortKey) - getSortVal(a, currentSortKey);
+  });
+  const maxVal = Math.max(...list.map(c => getSortVal(c, currentSortKey))) || 1;
+  const container = document.getElementById('sortResults');
+  container.innerHTML = list.map((c, i) => {
+    const rank = i + 1;
+    const val = getSortVal(c, currentSortKey);
+    const pct = currentSortKey === 'birthday' ? 100 : Math.round(val / maxVal * 100);
+    return `
+      <div class="sort-row" onclick="openDetail(c); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]);" style="--c:${c}">
+        <div class="sort-rank rank-${rank <= 3 ? rank : 0}">${rank}</div>
+        <div class="sort-portrait">
+          <div class="sort-portrait-inner ${c.gradient}">
+            <div class="sort-icon">🔥</div>
+            <div class="portrait-silhouette"></div>
+          </div>
+        </div>
+        <div>
+          <div class="sort-char-name">${c.name}</div>
+          <div class="sort-char-sub">${c.title}</div>
+        </div>
+        <div class="sort-stat-bar">
+          <span class="sort-stat-label">${sortKeyLabels[currentSortKey]}</span>
+          ${currentSortKey !== 'birthday' ? `<div class="sort-stat-track"><div class="sort-stat-fill" style="width:${pct}%"></div></div>` : ''}
+          <span class="sort-stat-val">${getStatLabel(c, currentSortKey)}</span>
+        </div>
+        <div class="sort-elem-dot el-${c.element}"></div>
+      </div>
+    `;
+  }).join('');
+  // Fix onclick to use index
+  container.querySelectorAll('.sort-row').forEach((row, i) => {
+    const char = list[i];
+    row.onclick = () => { openDetail(char); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]); };
+  });
+}
+
+// ===== RELATIONSHIP PAGE =====
+// Define country regions and character placements
+);
+
+
+// ===== KEYWORDS =====
+const keywords = {
+
+  '軽減': 'ダメージを一定割合軽減する効果。防御スキルや装備によって軽減率が変化する。',
+  '継続ダメージ': '毎ターン自動的にダメージを受ける状態。「燃焼」「毒」「呪い」などが代表例。解除スキルで早期終了できる。',
+}
+};
+
+// ===== SKILL EFFECTS =====
+const skillEffectData = {
+  buff: [
+    { id:'shield',    name:'シールド',    type:'buff',
+      desc:'一定量のダメージを吸収するバリアを対象に付与する効果。シールド値を超えるダメージはHPに影響しない。<kw data-kw="軽減">軽減</kw>効果と組み合わせることで強力な防御が可能。',
+      summary:'被ダメ吸収。軽減と相性良。', keywords:['シールド','shield'] },
+    { id:'reduce',    name:'軽減',        type:'buff',
+      desc:'受けるダメージを一定割合で減少させる効果。複数の<kw data-kw="軽減">軽減</kw>効果は重複して適用される場合と上書きされる場合がある。',
+      summary:'被ダメージを割合で軽減。', keywords:['軽減','reduce','ダメージを軽減'] },
+    { id:'atkbuff',   name:'攻撃バフ',    type:'buff',
+      desc:'対象のATKを一定時間または一定割合で上昇させる効果。スタック式のものは複数回重ねがけが可能で、上限に達するまで効果が累積する。',
+      summary:'ATK上昇。重複可能なものも。', keywords:['ATKを','攻撃力','ATKが上昇','ATKアップ','atk'] },
+    { id:'barrier',   name:'結界',        type:'buff',
+      desc:'特定の属性ダメージや状態異常を完全に無効化するフィールドを展開する効果。範囲内の全味方に適用されることが多い。',
+      summary:'属性無効フィールド。', keywords:['結界','バリア','無効','フィールド'] },
+    { id:'healbuff',  name:'回復増加',    type:'buff',
+      desc:'受ける回復量を一定割合で増加させる効果。回復スキルや回復アイテムの効果を底上げする。',
+      summary:'受回復量UP。ヒーラーと相性良。', keywords:['回復量','回復増加','healbuff'] },
+    { id:'spdbuff',   name:'スピードバフ', type:'buff',
+      desc:'対象のSPDまたは攻撃速度を一定時間上昇させる効果。行動順に影響するため先手を取りやすくなる。',
+      summary:'SPD・行動速度UP。', keywords:['SPD','速度','スピード','攻撃速度'] },
+    { id:'evadebuff', name:'回避バフ',    type:'buff',
+      desc:'対象の回避率を一定時間上昇させる効果。回避に成功すると攻撃を完全に無効化できる。確率依存だが発動時の恩恵は大きい。',
+      summary:'回避率UP。確率で攻撃無効。', keywords:['回避','evade'] },
+    { id:'hpbuff',    name:'HP増加',      type:'buff',
+      desc:'最大HPを一時的または永続的に増加させる効果。戦闘開始前に付与されるものは特に効果的で、タンク型キャラクターのHPを大幅に底上げできる。',
+      summary:'最大HP増加。タンク向き。', keywords:['HP','最大HP'] },
+  ],
+  debuff: [
+    { id:'slow',    name:'スロウ',      type:'debuff',
+      desc:'対象のSPDを低下させる効果。<kw data-kw="継続ダメージ">継続ダメージ</kw>と組み合わせると相手が逃げられず持続的にダメージを与えられる。',
+      summary:'SPD低下。継続ダメと相性良。', keywords:['SPD','スロウ','速度低下','移動速度が低下'] },
+    { id:'defdown', name:'防御ダウン',  type:'debuff',
+      desc:'対象のDEFを一時的に低下させる効果。攻撃役との連携で大幅なダメージ増加が見込める。',
+      summary:'DEF低下。アタッカーとの連携向き。', keywords:['DEF','防御力','防御が低下','def'] },
+    { id:'ctdebuf', name:'CT妨害',      type:'debuff',
+      desc:'対象のスキルCTを増加させる効果。長いCTを持つスキルに特に有効で、相手の行動を大幅に制限できる。<kw data-kw="封印">封印</kw>との組み合わせも強力。',
+      summary:'CT増加で行動制限。封印と併用可。', keywords:['CT','妨害','CT妨害','CTを増加'] },
+    { id:'seal',    name:'封印',        type:'debuff',
+      desc:'対象のスキル使用を一定時間禁止する効果。封印された対象は通常攻撃しか行えない。<kw data-kw="CT妨害">CT妨害</kw>と組み合わせると強力。',
+      summary:'スキル使用禁止。CT妨害と組み合わせ有効。', keywords:['封印','封じ','スキルを封印','封縛'] },
+    { id:'burn',    name:'燃焼',        type:'debuff',
+      desc:'対象に<kw data-kw="継続ダメージ">継続ダメージ</kw>を与え続ける炎状態。毎ターン一定ダメージが発生する。',
+      summary:'毎ターン炎ダメージ。', keywords:['燃焼','burn','炎上','焼'] },
+    { id:'dot',     name:'継続ダメージ', type:'debuff',
+      desc:'毎ターン自動的にダメージを受け続ける状態異常の総称。毒・燃焼・呪いなどが含まれる。解除スキルがない場合は持続ターン数が終わるまで効果が続く。',
+      summary:'毎ターン自動ダメージ。', keywords:['継続ダメージ','毎ターン','ターン終了時'] },
+    { id:'stun',    name:'スタン',      type:'debuff',
+      desc:'対象を一定時間行動不能にする効果。スタン中の敵はスキルも通常攻撃も使用できない。',
+      summary:'行動完全停止。', keywords:['スタン','行動不能','stun'] },
+    { id:'atkdown', name:'ATKダウン',   type:'debuff',
+      desc:'対象のATKを一時的に低下させる効果。敵の攻撃力を下げることで受けるダメージを抑えられる。',
+      summary:'ATK低下。受ダメ軽減に。', keywords:['ATKを低下','攻撃を5%','ATKデバフ','atk'] },
+  ],
+};
+
+// ===== MAP DATA =====
+const mapData = {
+  1: {
+    name: '第一大陸',
+    countries: [
+      {
+        id: 'ブルク', label: 'ブルク',
+        desc: '北方に広がる王国。深い森と古い城砦で知られ、月詠みの術士たちが多く暮らす地。藍の元素が満ちる神秘的な土地柄で、豊かな文化と長い歴史を誇る。',
+        color: 'rgba(30,60,100,0.65)', stroke: '#4a7fc9',
+        path: 'M 80 80 L 380 60 L 420 200 L 360 320 L 180 340 L 60 260 Z',
+        labelX: 220, labelY: 185,
+      },
+      {
+        id: 'ルプス', label: 'ルプス',
+        desc: '南の荒野を支配する帝国。雷と炎の元素が渦巻く厳しい大地。強力な軍事力を背景に急速に拡大しており、周辺国との緊張が高まっている。',
+        color: 'rgba(100,40,30,0.65)', stroke: '#c9604a',
+        path: 'M 380 60 L 560 80 L 600 280 L 480 360 L 360 320 L 420 200 Z',
+        labelX: 480, labelY: 215,
+      },
+      {
+        id: '無所属地帯', label: '無所属地帯',
+        desc: '二国の狭間にある中立地帯。様々な流れ者や傭兵が集まり、秘密の取引が行われる場所として知られている。',
+        color: 'rgba(50,50,50,0.55)', stroke: '#6a6a7a',
+        path: 'M 240 320 L 360 320 L 420 200 L 380 60 L 280 60 L 200 140 Z',
+        labelX: 320, labelY: 235,
+      },
+    ],
+  },
+  2: {
+    name: '第二大陸',
+    countries: [
+      {
+        id: '翠葉連邦', label: '翠葉連邦',
+        desc: '緑豊かな大森林に覆われた連邦国家。翠の元素が強く、弓や自然魔法に長けた民が多く住む。複数の部族が緩やかな連合を形成している。',
+        color: 'rgba(20,70,40,0.65)', stroke: '#3abf6a',
+        path: 'M 60 100 L 300 60 L 340 240 L 260 380 L 80 360 L 40 220 Z',
+        labelX: 180, labelY: 215,
+      },
+      {
+        id: '黄金皇国', label: '黄金皇国',
+        desc: '雷鳴轟く高原に築かれた皇国。黄の元素が豊富で、電気魔法や機械技術が高度に発展している。強大な皇帝の統治のもと、大陸最大の勢力を誇る。',
+        color: 'rgba(90,80,10,0.65)', stroke: '#bfb03a',
+        path: 'M 300 60 L 540 80 L 580 300 L 420 380 L 260 380 L 340 240 Z',
+        labelX: 420, labelY: 220,
+      },
+    ],
+  },
+};
+
+// ===== RELATIONSHIP DATA =====
+const relLayout = {
+  countries: [
+    { id:'ブルク', label:'ブルク', x:60,  y:60,  w:420, h:340, color:'rgba(30,60,90,0.55)',  border:'rgba(60,110,160,0.5)' },
+    { id:'ルプス', label:'ルプス', x:560, y:60,  w:380, h:340, color:'rgba(80,40,30,0.55)',  border:'rgba(160,80,60,0.5)' },
+    { id:'無所属', label:'無所属', x:200, y:460, w:500, h:220, color:'rgba(40,40,40,0.45)',  border:'rgba(80,80,80,0.4)' },
+  ],
+  nodes: [
+    { charId:1, x:130, y:140, countryId:'ブルク' },
+    { charId:2, x:320, y:140, countryId:'ブルク' },
+    { charId:3, x:130, y:300, countryId:'ブルク' },
+    { charId:4, x:640, y:130, countryId:'ルプス' },
+    { charId:5, x:820, y:130, countryId:'ルプス' },
+    { charId:6, x:730, y:290, countryId:'ルプス' },
+    { charId:1, x:300, y:520, countryId:'無所属', alias:'アムレート（客員）' },
+  ],
+  edges: [
+    { from:1, to:2, label:'親友',   color:'#e8c96a' },
+    { from:2, to:3, label:'同僚',   color:'#a09880' },
+    { from:1, to:3, label:'師弟',   color:'#4abfc9' },
+    { from:4, to:5, label:'ライバル', color:'#bf3a3a' },
+    { from:4, to:6, label:'上官',   color:'#a09880' },
+    { from:2, to:4, label:'因縁',   color:'#c9604a' },
+    { from:3, to:5, label:'旧友',   color:'#3abf6a' },
+  ],
+};
+
+// ===== CHARACTERS (assembled) =====
+const characters = CHAR_DATA.sort((a, b) => a.id - b.id);
+
+
+// ===== STATE VARIABLES =====
+let currentChar = null, currentWeapon = 'サタン', summaryOn = false;
+let currentMapNum = 1;
+let mapShowLabel = true;
+let mapScale = 1, mapOffX = 0, mapOffY = 0;
+let mapDragging = false, mapDragStart = {x:0,y:0}, mapDragOrigin = {x:0,y:0};
+let activeCountryId = null;
+let relScale = 1, relOffX = 0, relOffY = 0;
+let relDragging = false, relDragStart = {x:0,y:0}, relDragOrigin = {x:0,y:0};
+let skillListType = 'buff';
+let currentSortKey = 'spd';
+let sortFilters = new Set();
+const listFilters = new Set();
+let currentFilter = 'all';
+
 function renderCards(chars) {
   const grid = document.getElementById('charGrid');
   grid.innerHTML = '';
@@ -1496,7 +2232,7 @@ renderCards(characters);
 
 
 // ===== LIST PAGE FILTERS (multi-select: element OR|OR, class OR|OR, between AND) =====
-const listFilters = new Set();
+
 
 function toggleListFilter(key, btn) {
   if (listFilters.has(key)) { listFilters.delete(key); btn.classList.remove('active'); }
@@ -1528,7 +2264,7 @@ function applyListFilters() {
 function filterByName() { applyListFilters(); }
 
 // Keep filterChars for sidebar buff/debuff
-let currentFilter = 'all';
+
 function filterChars(type, btn) {
   currentFilter = type;
   if (['buff','debuff'].includes(type)) {
@@ -1559,8 +2295,7 @@ characters.forEach(c => {
 
 const sortKeyLabels = { spd:'SPD', evade:'回避', height:'身長', hp:'HP', weight:'体重', atk:'ATK', birthday:'誕生日', hit:'命中' };
 const sortKeyUnits  = { spd:'', evade:'', height:'cm', hp:'', weight:'kg', atk:'', birthday:'', hit:'' };
-let currentSortKey = 'spd';
-let sortFilters = new Set();
+
 
 function getSortVal(c, key) { return c.sortData[key] || 0; }
 
@@ -1628,164 +2363,6 @@ function renderSortResults() {
   });
 }
 
-// ===== RELATIONSHIP PAGE =====
-// Define country regions and character placements
-const relLayout = {
-  countries: [
-    { id:'ブルク', label:'ブルク', x:60,  y:60,  w:420, h:340, color:'rgba(30,60,90,0.55)',  border:'rgba(60,110,160,0.5)' },
-    { id:'ルプス', label:'ルプス', x:560, y:60,  w:380, h:340, color:'rgba(80,40,30,0.55)',  border:'rgba(160,80,60,0.5)' },
-    { id:'無所属', label:'無所属', x:200, y:460, w:500, h:220, color:'rgba(40,40,40,0.45)',  border:'rgba(80,80,80,0.4)' },
-  ],
-  nodes: [
-    { charId:1, x:130, y:140, countryId:'ブルク' },
-    { charId:2, x:320, y:140, countryId:'ブルク' },
-    { charId:3, x:130, y:300, countryId:'ブルク' },
-    { charId:4, x:640, y:130, countryId:'ルプス' },
-    { charId:5, x:820, y:130, countryId:'ルプス' },
-    { charId:6, x:730, y:290, countryId:'ルプス' },
-    { charId:1, x:300, y:520, countryId:'無所属', alias:'アムレート（客員）' },
-  ],
-  edges: [
-    { from:1, to:2, label:'親友',   color:'#e8c96a' },
-    { from:2, to:3, label:'同僚',   color:'#a09880' },
-    { from:1, to:3, label:'師弟',   color:'#4abfc9' },
-    { from:4, to:5, label:'ライバル', color:'#bf3a3a' },
-    { from:4, to:6, label:'上官',   color:'#a09880' },
-    { from:2, to:4, label:'因縁',   color:'#c9604a' },
-    { from:3, to:5, label:'旧友',   color:'#3abf6a' },
-  ],
-};
-
-let relScale = 1, relOffX = 0, relOffY = 0;
-let relDragging = false, relDragStart = {x:0,y:0}, relDragOrigin = {x:0,y:0};
-
-function renderRelationship() {
-  const canvas = document.getElementById('relCanvas');
-  const svg = document.getElementById('relSvg');
-  canvas.innerHTML = ''; canvas.appendChild(svg); svg.innerHTML = '';
-
-  // Countries
-  relLayout.countries.forEach(ct => {
-    const div = document.createElement('div');
-    div.className = 'rel-country';
-    div.style.cssText = `left:${ct.x}px;top:${ct.y}px;width:${ct.w}px;height:${ct.h}px;background:${ct.color};border:1px solid ${ct.border};`;
-    const lbl = document.createElement('div');
-    lbl.className = 'rel-country-label';
-    lbl.textContent = ct.label;
-    lbl.onclick = (e) => { e.stopPropagation(); };
-    div.appendChild(lbl);
-    canvas.appendChild(div);
-  });
-
-  // Build node position map (charId → center coords, using first occurrence)
-  const nodePos = {};
-  const uniqueNodes = [];
-  relLayout.nodes.forEach(n => {
-    if (!nodePos[n.charId]) {
-      nodePos[n.charId] = { x: n.x + 35, y: n.y + 35 };
-    }
-    uniqueNodes.push(n);
-  });
-
-  // Draw edges on SVG
-  relLayout.edges.forEach(edge => {
-    const a = nodePos[edge.from], b = nodePos[edge.to];
-    if (!a || !b) return;
-    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
-    line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
-    line.setAttribute('stroke', edge.color); line.setAttribute('stroke-width','2');
-    line.setAttribute('stroke-opacity','0.7');
-    svg.appendChild(line);
-    // label
-    const fo = document.createElementNS('http://www.w3.org/2000/svg','foreignObject');
-    fo.setAttribute('x', mx - 30); fo.setAttribute('y', my - 12);
-    fo.setAttribute('width', 70); fo.setAttribute('height', 28);
-    fo.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" class="rel-label-box" style="background:${edge.color};display:inline-block;">${edge.label}</div>`;
-    svg.appendChild(fo);
-  });
-
-  // Draw character nodes
-  uniqueNodes.forEach(n => {
-    const char = characters.find(c => c.id === n.charId);
-    if (!char) return;
-    const node = document.createElement('div');
-    node.className = 'rel-char-node';
-    node.style.cssText = `left:${n.x}px;top:${n.y}px;`;
-    node.innerHTML = `
-      <div class="rel-char-portrait">
-        <div class="rel-char-icon">🔥</div>
-        <div class="${char.gradient}" style="width:100%;height:100%;"></div>
-        <div class="portrait-silhouette"></div>
-      </div>
-      <div class="rel-char-name">${n.alias || char.name}</div>
-    `;
-    node.onclick = (e) => { e.stopPropagation(); openDetail(char); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]); };
-    canvas.appendChild(node);
-  });
-
-  applyRelTransform();
-  setupRelDrag();
-}
-
-function applyRelTransform() {
-  document.getElementById('relCanvas').style.transform = `translate(${relOffX}px,${relOffY}px) scale(${relScale})`;
-}
-
-function relZoom(delta) {
-  relScale = Math.max(0.3, Math.min(2.5, relScale + delta));
-  applyRelTransform();
-}
-
-function relReset() {
-  relScale = 1; relOffX = 40; relOffY = 20;
-  applyRelTransform();
-}
-
-function setupRelDrag() {
-  const wrap = document.getElementById('relCanvasWrap');
-  if (wrap._dragSetup) return;
-  wrap._dragSetup = true;
-  wrap.addEventListener('mousedown', e => {
-    relDragging = true; relDragStart = {x:e.clientX, y:e.clientY};
-    relDragOrigin = {x:relOffX, y:relOffY};
-    wrap.classList.add('grabbing');
-  });
-  window.addEventListener('mousemove', e => {
-    if (!relDragging) return;
-    relOffX = relDragOrigin.x + e.clientX - relDragStart.x;
-    relOffY = relDragOrigin.y + e.clientY - relDragStart.y;
-    applyRelTransform();
-  });
-  window.addEventListener('mouseup', () => { relDragging = false; wrap.classList.remove('grabbing'); });
-  // Touch
-  wrap.addEventListener('touchstart', e => {
-    if (e.touches.length === 1) {
-      relDragging = true;
-      relDragStart = {x:e.touches[0].clientX, y:e.touches[0].clientY};
-      relDragOrigin = {x:relOffX, y:relOffY};
-    }
-  }, {passive:true});
-  wrap.addEventListener('touchmove', e => {
-    if (!relDragging || e.touches.length !== 1) return;
-    relOffX = relDragOrigin.x + e.touches[0].clientX - relDragStart.x;
-    relOffY = relDragOrigin.y + e.touches[0].clientY - relDragStart.y;
-    applyRelTransform();
-  }, {passive:true});
-  wrap.addEventListener('touchend', () => { relDragging = false; });
-  // Wheel zoom
-  wrap.addEventListener('wheel', e => {
-    e.preventDefault();
-    relZoom(e.deltaY < 0 ? 0.1 : -0.1);
-  }, {passive:false});
-}
-
-
-
-
-let relScale = 1, relOffX = 0, relOffY = 0;
-let relDragging = false, relDragStart = {x:0,y:0}, relDragOrigin = {x:0,y:0};
 
 function renderRelationship() {
   const canvas = document.getElementById('relCanvas');
@@ -1956,13 +2533,6 @@ function setupRelDrag() {
 
 // (showPage wrapper moved to end of script)
 
-let currentMapNum = 1;
-let mapShowLabel = true;
-let mapScale = 1, mapOffX = 0, mapOffY = 0;
-
-
-let mapDragging = false, mapDragStart = {x:0,y:0}, mapDragOrigin = {x:0,y:0};
-let activeCountryId = null;
 
 function showMap(num) {
   currentMapNum = num;
@@ -2084,7 +2654,6 @@ function getCharsForEffect(effect) {
   });
 }
 
-let skillListType = 'buff'; // 'buff' or 'debuff'
 
 function showSkillList(type) {
   skillListType = type;
@@ -2157,7 +2726,6 @@ function goBackFromSkillDetail() {
 }
 
 
-
 // ===== THEME TOGGLE =====
 function toggleTheme() {
   const root = document.documentElement;
@@ -2217,6 +2785,7 @@ window.showPage = function(name) {
 };
 
 renderSortResults();
+
 
 </script>
 </body>
