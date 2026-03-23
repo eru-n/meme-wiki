@@ -1347,21 +1347,8 @@ function renderCards(chars) {
   });
 }
 
-let currentFilter = 'all';
-function filterChars(type, btn) {
-  currentFilter = type;
-  if (btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-  const nameVal = document.getElementById('nameSearch').value.trim();
-  document.querySelectorAll('.char-card').forEach(card => {
-    let show = true;
-    if (['藍','紅','翠','黄'].includes(type)) show = card.dataset.element === type;
-    else if (['ウォーリア','スナイパー','ソーサラー'].includes(type)) show = card.dataset.class === type;
-    else if (['buff','debuff'].includes(type)) show = card.dataset.tags.includes(type);
-    if (nameVal) show = show && card.dataset.name.includes(nameVal);
-    card.classList.toggle('hidden', !show);
-  });
-}
-function filterByName() { filterChars(currentFilter, null); }
+// (filterChars unified below)
+
 function sortCharacters() { renderCards([...characters].sort((a,b) => a.name.localeCompare(b.name,'ja'))); }
 
 function openDetail(char) {
@@ -2169,6 +2156,55 @@ function goBackFromSkillDetail() {
   sbLinks.forEach(l => { if (l.textContent === from) setSidebarActive(l); });
 }
 
+
+
+// ===== THEME TOGGLE =====
+function toggleTheme() {
+  const root = document.documentElement;
+  const isLight = root.classList.toggle('light');
+  document.getElementById('themeIcon').textContent  = isLight ? '🌙' : '☀';
+  document.getElementById('themeLabel').textContent = isLight ? 'ダーク' : 'ライト';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// Default: light mode（'dark' が明示保存されていない限りライト）
+(function() {
+  const saved = localStorage.getItem('theme');
+  const isLight = saved !== 'dark';
+  if (isLight) {
+    document.documentElement.classList.add('light');
+    const icon  = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    if (icon)  icon.textContent  = '🌙';
+    if (label) label.textContent = 'ダーク';
+  }
+})();
+
+// ===== HOME PAGE =====
+function renderHome() {
+  const countEl = document.getElementById('homeCharCount');
+  if (countEl) countEl.textContent = characters.length;
+  const grid = document.getElementById('homeCharGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  characters.slice(0, 12).forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'home-char-chip';
+    chip.innerHTML = `
+      <div class="home-char-thumb">
+        <div class="home-char-thumb-inner ${c.gradient}">
+          <div class="portrait-silhouette"></div>
+        </div>
+      </div>
+      <div class="home-char-label">${c.name}</div>
+    `;
+    chip.addEventListener('click', () => {
+      openDetail(c);
+      setSidebarActive(document.querySelector('.sidebar-link'));
+    });
+    grid.appendChild(chip);
+  });
+}
 
 // ===== showPage wrapper (unified) =====
 const _origShowPage = showPage;
