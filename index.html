@@ -1915,7 +1915,9 @@ const keywords = {
 
   '軽減': 'ダメージを一定割合軽減する効果。防御スキルや装備によって軽減率が変化する。',
   '継続ダメージ': '毎ターン自動的にダメージを受ける状態。「燃焼」「毒」「呪い」などが代表例。解除スキルで早期終了できる。',
-}
+  '封印': 'スキルの使用を一定ターン禁止する状態異常。封印中は通常攻撃のみ可能。',
+  'CT妨害': 'スキルのクールタイムを強制的に増加させる効果。相手の行動を制限する。',
+  'シールド': '一定量のダメージを吸収する防護膜。シールド値を超えた分のみHPに影響する。',
 };
 
 // ===== SKILL EFFECTS =====
@@ -2064,10 +2066,7 @@ let activeCountryId = null;
 let relScale = 1, relOffX = 0, relOffY = 0;
 let relDragging = false, relDragStart = {x:0,y:0}, relDragOrigin = {x:0,y:0};
 let skillListType = 'buff';
-let currentSortKey = 'spd';
-let sortFilters = new Set();
 const listFilters = new Set();
-let currentFilter = 'all';
 
 function renderCards(chars) {
   const grid = document.getElementById('charGrid');
