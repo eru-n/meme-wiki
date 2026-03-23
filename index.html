@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キャラクター図鑑</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg:          #0d0e14;
+    --bg-card:     #13141c;
+    --bg-panel:    #191b24;
+    --bg-secondary:#1e2030;
+    --bg-hover:    #232639;
+    --border:      rgba(255,255,255,0.07);
+    --border-hover:rgba(255,255,255,0.13);
+    --primary:     #7c5cfc;
+    --primary-dim: rgba(124,92,252,0.15);
+    --primary-glow:rgba(124,92,252,0.4);
+    --amber:       #f59e0b;
+    --amber-dim:   rgba(245,158,11,0.15);
+    --amber-glow:  rgba(245,158,11,0.5);
+    --cyan:        #22d3ee;
+    --cyan-dim:    rgba(34,211,238,0.12);
+    --text-1:      #e8eaf0;
+    --text-2:      #8b90a8;
+    --text-3:      #4a4f68;
+    --radius:      10px;
+    --radius-lg:   14px;
+    --radius-xl:   18px;
+
+    /* element colours */
+    --el-藍: #60a5fa;
+    --el-紅: #f87171;
+    --el-翠: #34d399;
+    --el-黄: #fbbf24;
+  }
+
+
+  /* ===== HOME PAGE ===== */
+  #page-home.active { display: block; }
+  .home-page { padding: 28px 32px; max-width: 960px; }
+  .home-hero {
+    position: relative; overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--primary-dim), var(--bg-panel));
+    border: 1px solid var(--border);
+    padding: 40px 48px; margin-bottom: 36px;
+  }
+  .home-hero::before {
+    content: ''; position: absolute;
+    top: -40px; right: -40px; width: 220px; height: 220px;
+    background: radial-gradient(circle, var(--primary-glow), transparent 70%);
+    pointer-events: none;
+  }
+  .home-hero::after {
+    content: ''; position: absolute;
+    bottom: -30px; left: -30px; width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .home-hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--primary); margin-bottom: 14px;
+  }
+  .home-hero-title {
+    font-family: 'Noto Serif JP',serif;
+    font-size: 32px; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--text-1); margin-bottom: 12px; line-height: 1.3;
+    position: relative; z-index: 1;
+  }
+  .home-hero-desc {
+    font-size: 13px; color: var(--text-2); line-height: 1.8; max-width: 520px;
+    position: relative; z-index: 1;
+  }
+  .home-stats {
+    display: flex; gap: 12px; margin-top: 22px; position: relative; z-index: 1;
+  }
+  .home-stat-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius); font-size: 12px; color: var(--text-2);
+  }
+  .home-stat-chip b { color: var(--text-1); }
+
+  .home-section-title {
+    font-size: 15px; font-weight: 700;
+    color: var(--text-1); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .home-section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .home-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px; margin-bottom: 36px;
+  }
+  .home-link-card {
+    padding: 20px 18px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .home-link-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--card-grad, transparent);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .home-link-card:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .home-link-card:hover::before { opacity: 1; }
+  .home-link-icon { font-size: 22px; margin-bottom: 12px; display: block; }
+  .home-link-title { font-size: 13px; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
+  .home-link-desc { font-size: 11px; color: var(--text-2); line-height: 1.5; }
+  .home-link-arrow {
+    position: absolute; bottom: 14px; right: 14px;
+    font-size: 12px; color: var(--text-3);
+    transition: all 0.2s;
+  }
+  .home-link-card:hover .home-link-arrow { color: var(--primary); transform: translateX(2px); }
+
+  .home-chars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  .home-char-chip {
+    border-radius: var(--radius-lg); border: 1px solid var(--border);
+    background: var(--bg-card); overflow: hidden;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .home-char-chip:hover { border-color: rgba(124,92,252,0.3); transform: translateY(-2px); }
+  .home-char-thumb {
+    aspect-ratio: 1; position: relative; overflow: hidden;
+  }
+  .home-char-thumb-inner { width:100%; height:100%; }
+  .home-char-thumb::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--bg-card) 0%, transparent 50%);
+  }
+  .home-char-label {
+    padding: 6px 8px; font-size: 11px; font-weight: 600;
+    color: var(--text-1); letter-spacing: 0.03em;
+  }
+  /* ===== LIGHT MODE (MementoMori inspired: warm parchment & gold) ===== */
+  :root.light {
+    --bg:          #f0ebe0;
+    --bg-card:     #faf6ef;
+    --bg-panel:    #f5f0e8;
+    --bg-secondary:#ece6d8;
+    --bg-hover:    #e4ddd0;
+    --border:      rgba(140,110,70,0.18);
+    --border-hover:rgba(140,110,70,0.32);
+    --primary:     #7c5530;
+    --primary-dim: rgba(124,85,48,0.1);
+    --primary-glow:rgba(124,85,48,0.3);
+    --amber:       #a07020;
+    --amber-dim:   rgba(160,112,32,0.12);
+    --amber-glow:  rgba(160,112,32,0.4);
+    --cyan:        #2a6b8c;
+    --cyan-dim:    rgba(42,107,140,0.1);
+    --text-1:      #2c2218;
+    --text-2:      #6b5a40;
+    --text-3:      #a8957a;
+    --el-藍: #2a6b8c;
+    --el-紅: #a83030;
+    --el-翠: #2a7a50;
+    --el-黄: #a07020;
+  }
+
+  :root.light body {
+    background: var(--bg);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  :root.light .site-header {
+    background: rgba(240,235,224,0.92);
+    border-bottom-color: rgba(140,110,70,0.2);
+  }
+  :root.light .sidebar { background: rgba(240,235,224,0.9); }
+  :root.light .card-inner { box-shadow: 0 2px 12px rgba(100,80,50,0.12); }
+  :root.light .char-portrait-large { box-shadow: 0 4px 20px rgba(100,80,50,0.2); }
+  :root.light .char-quote {
+    background: linear-gradient(135deg, rgba(124,85,48,0.06), rgba(124,85,48,0.02));
+    border-color: rgba(124,85,48,0.2);
+  }
+  :root.light .tab-btn.active { color: var(--primary); background: var(--primary-dim); }
+  :root.light .filter-btn.active { color: var(--amber); border-color: rgba(160,112,32,0.4); background: var(--amber-dim); }
+  :root.light .filter-btn.active .radio-dot { background: var(--amber); border-color: var(--amber); }
+  :root.light .sort-btn.active { color: var(--amber); }
+  :root.light .sort-btn.active .radio-dot { background: var(--amber); border-color: var(--amber); }
+  :root.light .sort-row:hover { border-color: rgba(160,112,32,0.4); }
+  :root.light .keyword-popup { border-color: rgba(42,107,140,0.4); }
+  :root.light .skill-detail-desc { border-left-color: var(--primary); }
+  :root.light .skill-effect-card:hover::before { background: var(--primary); }
+  :root.light .search-results-panel { background: rgba(240,235,224,0.97); }
+  :root.light .status-grid-4x4 { background: var(--bg-panel); }
+  :root.light .map-desc-panel { background: rgba(124,85,48,0.04); }
+
+  /* Theme toggle button */
+  .theme-toggle {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    font-size: 11px; font-family: inherit;
+    color: var(--text-2);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer; transition: all 0.2s;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { color: var(--text-1); border-color: var(--border-hover); }
+  .theme-toggle-icon { font-size: 13px; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Noto Sans JP','Inter',sans-serif;
+    background: var(--bg);
+    color: var(--text-1);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width:5px; height:5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg-secondary); border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 54px;
+    background: rgba(13,14,20,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 200;
+  }
+  .site-title {
+    font-family: 'Noto Serif JP',serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .site-title::before {
+    content: '⚔';
+    font-size: 14px;
+    color: var(--primary);
+    opacity: 0.9;
+  }
+
+  .global-search-wrap {
+    display: flex; align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .global-search-wrap:focus-within {
+    border-color: rgba(124,92,252,0.4);
+    box-shadow: 0 0 0 3px var(--primary-dim);
+  }
+  .global-search-input {
+    background: transparent; border: none; outline: none;
+    color: var(--text-1);
+    font-family: inherit; font-size: 12px;
+    padding: 7px 12px; width: 220px;
+  }
+  .global-search-input::placeholder { color: var(--text-3); }
+  .global-search-btn {
+    background: transparent; border: none;
+    border-left: 1px solid var(--border);
+    color: var(--text-3); padding: 7px 12px;
+    font-size: 14px; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .global-search-btn:hover { color: var(--primary); }
+
+  /* Search panel */
+  .search-results-panel {
+    display: none; position: fixed;
+    top: 54px; left: 0; right: 0;
+    background: rgba(13,14,20,0.97);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(124,92,252,0.3);
+    z-index: 199; max-height: 380px; overflow-y: auto;
+    padding: 12px 24px;
+  }
+  .search-results-panel.open { display: block; }
+  .search-results-label {
+    font-size: 10px; color: var(--text-3);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .search-result-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 10px; cursor: pointer;
+    border-radius: var(--radius);
+    transition: background 0.15s;
+    margin-bottom: 2px;
+  }
+  .search-result-item:hover { background: var(--bg-secondary); }
+  .search-result-thumb {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; background: var(--bg-secondary);
+    overflow: hidden;
+  }
+  .search-result-name { font-size: 13px; font-weight: 500; }
+  .search-result-sub  { font-size: 11px; color: var(--text-2); margin-top: 1px; }
+  .search-result-tag  {
+    margin-left: auto; font-size: 10px;
+    color: var(--amber);
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,158,11,0.25);
+    padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+  }
+  .search-no-result { font-size: 12px; color: var(--text-3); padding: 8px 0; }
+
+  /* ===== LAYOUT ===== */
+  .app-layout { display: flex; min-height: calc(100vh - 54px); }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    width: 196px; flex-shrink: 0;
+    background: rgba(13,14,20,0.8);
+    border-right: 1px solid var(--border);
+    padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .sidebar-section {}
+  .sidebar-heading {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-3);
+    padding: 0 8px; margin-bottom: 6px;
+  }
+  .sidebar-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px;
+    font-size: 12px; font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer; border-radius: var(--radius);
+    transition: all 0.18s;
+    text-decoration: none;
+    position: relative;
+  }
+  .sidebar-link::before {
+    content: '';
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--text-3);
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .sidebar-link:hover { color: var(--text-1); background: var(--bg-secondary); }
+  .sidebar-link.active {
+    color: var(--primary);
+    background: var(--primary-dim);
+    font-weight: 600;
+  }
+  .sidebar-link.active::before {
+    background: var(--primary);
+    box-shadow: 0 0 6px var(--primary-glow);
+  }
+
+  /* ===== MAIN ===== */
+  .main-content { flex: 1; overflow: auto; }
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.2s ease-out; }
+  #page-sort.active { display: flex !important; flex-direction: column; height: calc(100vh - 54px); overflow: hidden; }
+  #page-relationship.active, #page-map.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== FILTER BAR ===== */
+  .filter-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .name-search-wrap {
+    display: flex; align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.2s;
+    overflow: hidden;
+  }
+  .name-search-wrap:focus-within { border-color: rgba(124,92,252,0.4); }
+  .name-search-icon { padding: 5px 10px; font-size: 12px; color: var(--text-3); }
+  .name-search-input {
+    background: transparent; border: none; outline: none;
+    font-family: inherit; font-size: 12px;
+    color: var(--text-1); width: 120px; padding: 5px 8px 5px 0;
+  }
+  .name-search-input::placeholder { color: var(--text-3); }
+  .filter-sep { width: 1px; height: 18px; background: var(--border); margin: 0 2px; }
+  .filter-group-label {
+    font-size: 9px; color: var(--text-3);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0 4px; align-self: center;
+  }
+  .filter-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 10px; font-size: 11px; font-family: inherit;
+    color: var(--text-2);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer; transition: all 0.18s; white-space: nowrap;
+  }
+  .radio-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid currentColor; flex-shrink: 0; transition: all 0.18s;
+  }
+  .filter-btn:hover { color: var(--text-1); border-color: var(--border-hover); background: var(--bg-hover); }
+  .filter-btn.active { color: var(--amber); border-color: rgba(245,158,11,0.4); background: var(--amber-dim); }
+  .filter-btn.active .radio-dot { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 5px var(--amber-glow); }
+  .filter-btn-reset { color: var(--text-3) !important; border-color: transparent !important; font-size: 10px; margin-left: 4px; }
+  .filter-btn-reset:hover { color: #f87171 !important; background: rgba(248,113,113,0.08) !important; }
+
+  /* ===== CHARACTER GRID ===== */
+  .character-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px; padding: 18px 20px;
+  }
+  .char-card { cursor: pointer; transition: transform 0.2s; }
+  .char-card:hover { transform: translateY(-4px); }
+  .char-card.hidden { display: none; }
+
+  .card-inner {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .char-card:hover .card-inner {
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  /* Portrait area */
+  .card-portrait-placeholder {
+    aspect-ratio: 3/4; position: relative; overflow: hidden;
+  }
+  /* element glow on hover */
+  .char-card[data-element="藍"]:hover .card-inner { box-shadow: 0 8px 32px rgba(96,165,250,0.15); }
+  .char-card[data-element="紅"]:hover .card-inner { box-shadow: 0 8px 32px rgba(248,113,113,0.15); }
+  .char-card[data-element="翠"]:hover .card-inner { box-shadow: 0 8px 32px rgba(52,211,153,0.15); }
+  .char-card[data-element="黄"]:hover .card-inner { box-shadow: 0 8px 32px rgba(251,191,36,0.15); }
+
+  /* Portrait gradient placeholders */
+  .portrait-gradient-1 { background: linear-gradient(160deg, #1a1530 0%, #2d1f4a 50%, #1a1520 100%); }
+  .portrait-gradient-2 { background: linear-gradient(160deg, #1e1015 0%, #3a1820 50%, #1e1015 100%); }
+  .portrait-gradient-3 { background: linear-gradient(160deg, #0f1e18 0%, #1a3528 50%, #0f1e18 100%); }
+  .portrait-gradient-4 { background: linear-gradient(160deg, #1a1a0e 0%, #2e2a10 50%, #1a1a0e 100%); }
+  .portrait-gradient-5 { background: linear-gradient(160deg, #0e1820 0%, #142535 50%, #0e1820 100%); }
+  .portrait-silhouette {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 70%; height: 75%; opacity: 0.12;
+    background: linear-gradient(to top, rgba(255,255,255,0.5), transparent);
+    clip-path: polygon(50% 0%, 85% 30%, 100% 100%, 0% 100%, 15% 30%);
+  }
+
+  /* Gradient overlay on portrait */
+  .card-portrait-placeholder::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, var(--bg-card) 0%, transparent 55%);
+  }
+
+  .card-icon {
+    position: absolute; top: 8px; left: 8px;
+    width: 24px; height: 24px;
+    background: rgba(124,92,252,0.25);
+    border-radius: 6px; z-index: 3;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; border: 1px solid rgba(124,92,252,0.3);
+  }
+  .card-element {
+    position: absolute; top: 8px; right: 8px; z-index: 3;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+    padding: 2px 6px; border-radius: 4px; border: 1px solid;
+  }
+  .card-element.el-藍 { color: var(--el-藍); background: rgba(96,165,250,0.12); border-color: rgba(96,165,250,0.25); }
+  .card-element.el-紅 { color: var(--el-紅); background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.25); }
+  .card-element.el-翠 { color: var(--el-翠); background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); }
+  .card-element.el-黄 { color: var(--el-黄); background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.25); }
+
+  .card-name {
+    padding: 10px 10px 8px; position: relative; z-index: 2;
+    font-size: 12px; font-weight: 600;
+    color: var(--text-1); letter-spacing: 0.03em;
+  }
+
+  /* ===== DETAIL PAGE ===== */
+  .detail-page { padding: 18px 24px; max-width: 900px; }
+  .detail-top-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; color: var(--text-2);
+    cursor: pointer; transition: color 0.18s;
+    padding: 6px 12px; border-radius: var(--radius);
+    background: var(--bg-secondary); border: 1px solid var(--border);
+  }
+  .back-btn::before { content: '←'; color: var(--text-3); }
+  .back-btn:hover { color: var(--primary); border-color: rgba(124,92,252,0.3); }
+  .char-name-header {
+    font-family: 'Noto Serif JP',serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text-1); letter-spacing: 0.08em;
+  }
+  .char-detail-top { display: flex; gap: 20px; margin-bottom: 20px; align-items: flex-start; }
+  .char-portrait-wrap { flex-shrink: 0; width: 160px; }
+  .char-portrait-large {
+    width: 160px; height: 190px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+  .portrait-icon-large {
+    position: absolute; top: 8px; left: 8px;
+    width: 26px; height: 26px;
+    background: rgba(124,92,252,0.25); border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; z-index: 3;
+    border: 1px solid rgba(124,92,252,0.3);
+  }
+  .status-btn {
+    margin-top: 10px; width: 100%;
+    padding: 7px 14px; font-size: 11px; font-family: inherit;
+    font-weight: 500; letter-spacing: 0.04em;
+    color: var(--text-2); text-align: left;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); cursor: pointer;
+    transition: all 0.18s;
+  }
+  .status-btn:hover { color: var(--primary); border-color: rgba(124,92,252,0.3); }
+  .status-panel { display: none; margin-top: 6px; }
+  .status-panel.open { display: block; animation: fadeIn 0.15s ease-out; }
+
+  /* 4×4 status grid */
+  .status-grid-4x4 {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    background: var(--bg-card);
+  }
+  .status-grid-4x4 .status-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 7px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-size: 10px;
+  }
+  .status-grid-4x4 .status-row:nth-child(4n) { border-right: none; }
+  .status-grid-4x4 .status-row:nth-last-child(-n+4) { border-bottom: none; }
+  .status-label { color: var(--text-3); }
+  .status-val { color: var(--text-1); font-weight: 600; font-size: 11px; }
+
+  .char-info-wrap { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .char-quote {
+    background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(124,92,252,0.03));
+    border: 1px solid rgba(124,92,252,0.15);
+    border-radius: var(--radius-lg); padding: 16px 20px;
+    position: relative; overflow: hidden;
+  }
+  .char-quote::before {
+    content: '"'; position: absolute; top: -10px; left: 12px;
+    font-size: 80px; color: var(--primary); opacity: 0.06;
+    font-family: serif; line-height: 1;
+  }
+  .char-quote-text {
+    font-family: 'Noto Serif JP',serif; font-size: 14px;
+    color: rgba(232,234,240,0.85);
+    text-align: center; letter-spacing: 0.1em;
+    line-height: 1.8; position: relative; z-index: 1;
+  }
+  .char-titles {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 16px;
+  }
+  .char-title-main { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 3px; }
+  .char-title-sub { font-size: 11px; color: var(--text-2); }
+
+  /* ===== TABS ===== */
+  .tab-bar {
+    display: flex; gap: 3px; padding: 4px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 0;
+  }
+  .tab-btn {
+    flex: 1; padding: 8px 16px; font-size: 12px; font-family: inherit;
+    font-weight: 500; color: var(--text-2);
+    background: transparent; border: none;
+    border-radius: var(--radius); cursor: pointer; transition: all 0.18s;
+    letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text-1); background: var(--bg-hover); }
+  .tab-btn.active { color: var(--primary); background: var(--primary-dim); font-weight: 600; }
+  .tab-panel {
+    display: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: 20px; min-height: 300px;
+  }
+  .tab-panel.active { display: block; }
+
+  /* ===== SKILL TAB ===== */
+  .skill-summary-bar {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 16px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-radio {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--text-2);
+    cursor: pointer; user-select: none; transition: color 0.18s;
+  }
+  .summary-radio-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--text-3); transition: all 0.18s; flex-shrink: 0;
+  }
+  .summary-radio.checked { color: var(--amber); }
+  .summary-radio.checked .summary-radio-dot { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 5px var(--amber-glow); }
+  .weapon-select-wrap { display: flex; align-items: center; gap: 5px; }
+  .weapon-select-label { font-size: 10px; color: var(--text-3); }
+  .weapon-tab-btn {
+    padding: 4px 10px; font-size: 11px; font-family: inherit;
+    color: var(--text-2); background: var(--bg-secondary);
+    border: 1px solid var(--border); border-radius: 6px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .weapon-tab-btn:hover { color: var(--text-1); border-color: var(--border-hover); }
+  .weapon-tab-btn.active { color: var(--amber); border-color: rgba(245,158,11,0.4); background: var(--amber-dim); }
+  .skill-summary-text {
+    display: none;
+    background: rgba(124,92,252,0.06); border: 1px solid rgba(124,92,252,0.15);
+    border-radius: var(--radius); padding: 12px 14px;
+    font-size: 12px; color: var(--text-2); line-height: 1.8; margin-bottom: 16px;
+  }
+  .skill-summary-text.show { display: block; }
+  .skill-block { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .skill-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .skill-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .skill-name { font-family: 'Noto Serif JP',serif; font-size: 14px; font-weight: 600; color: var(--text-1); }
+  .skill-ct {
+    font-size: 10px; color: var(--amber);
+    background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.25);
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .skill-desc { font-size: 12px; color: var(--text-2); line-height: 1.9; }
+  .skill-keyword { color: var(--cyan); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+  .skill-keyword:hover { opacity: 0.8; }
+
+  /* ===== KEYWORD POPUP ===== */
+  .keyword-popup {
+    display: none; position: fixed; z-index: 300;
+    background: var(--bg-panel);
+    border: 1px solid rgba(34,211,238,0.3);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px; max-width: 290px;
+    font-size: 12px; color: var(--text-1); line-height: 1.7;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  .keyword-popup.open { display: block; animation: fadeIn 0.15s ease-out; }
+  .keyword-popup-title { font-weight: 600; color: var(--cyan); margin-bottom: 6px; font-size: 13px; }
+  .keyword-popup-close { position: absolute; top: 8px; right: 10px; font-size: 11px; color: var(--text-3); cursor: pointer; }
+  .keyword-popup-link {
+    display: inline-block; margin-top: 10px;
+    font-size: 11px; color: var(--cyan);
+    background: var(--cyan-dim); border: 1px solid rgba(34,211,238,0.25);
+    padding: 4px 12px; border-radius: 6px; cursor: pointer; transition: all 0.18s;
+  }
+  .keyword-popup-link:hover { background: rgba(34,211,238,0.2); }
+
+  /* ===== PROFILE TAB ===== */
+  .profile-stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; margin-bottom: 16px;
+    background: var(--bg-card);
+  }
+  .profile-stat-row {
+    display: flex; align-items: baseline;
+    padding: 10px 16px; gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .profile-stat-row:nth-child(odd) { border-right: 1px solid var(--border); }
+  .profile-stat-row:nth-last-child(-n+2) { border-bottom: none; }
+  .profile-stat-label { font-size: 11px; color: var(--text-3); min-width: 50px; }
+  .profile-stat-line { flex:1; border-bottom: 1px solid var(--border); min-width: 10px; margin-bottom: 2px; }
+  .profile-stat-val { font-size: 14px; font-weight: 600; color: var(--text-1); }
+  .profile-desc {
+    font-size: 12px; color: var(--text-2); line-height: 1.9;
+    padding: 14px 16px;
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 16px;
+  }
+  .profile-memo-label { font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .memo-editor {
+    min-height: 80px; font-size: 12px; color: var(--text-2);
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 14px; line-height: 1.8;
+  }
+
+  /* ===== VOICE / LAMENT ACCORDION ===== */
+  .accordion-section { margin-bottom: 4px; }
+  .accordion-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; cursor: pointer;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-1); user-select: none;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); transition: all 0.18s;
+  }
+  .accordion-header:hover { background: var(--bg-hover); color: var(--primary); }
+  .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+  .accordion-content.open { max-height: 800px; }
+  .voice-list { padding: 4px 0 12px 0; }
+  .voice-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px; border-bottom: 1px solid var(--border);
+    font-size: 12px; color: var(--text-2);
+  }
+  .voice-item:last-child { border-bottom: none; }
+  .voice-bullet { color: var(--primary); flex-shrink: 0; }
+  .lament-list { padding: 4px 0 12px 0; }
+  .lament-line-wrap {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 14px; border-bottom: 1px solid var(--border);
+  }
+  .lament-line-wrap:last-child { border-bottom: none; }
+  .lament-line-text {
+    font-family: 'Noto Serif JP',serif; font-size: 13px;
+    color: var(--text-2); letter-spacing: 0.06em; min-width: 180px; line-height: 1.7;
+  }
+  .lament-note-static {
+    flex: 1; font-size: 11px; color: var(--text-3);
+    border-bottom: 1px dashed var(--border); padding: 2px 6px; min-width: 100px; min-height: 1.4em;
+  }
+
+  /* ===== SORT PAGE ===== */
+  #page-sort.active { display: flex !important; flex-direction: column; height: calc(100vh - 54px); overflow: hidden; }
+  .sort-criteria-bar {
+    display: flex; align-items: stretch; flex-wrap: wrap;
+    background: var(--bg-card); border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  .sort-criteria-section { padding: 10px 16px; }
+  .sort-criteria-section + .sort-criteria-section { border-left: 1px solid var(--border); }
+  .sort-criteria-label {
+    font-size: 9px; letter-spacing: 0.15em; color: var(--text-3);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .sort-criteria-grid { display: grid; grid-template-columns: repeat(3,auto); gap: 6px 12px; }
+  .sort-btn {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--text-2);
+    background: transparent; border: none; padding: 0;
+    font-family: inherit; white-space: nowrap;
+    cursor: pointer; transition: color 0.18s;
+  }
+  .sort-btn .radio-dot { width: 10px; height: 10px; }
+  .sort-btn:hover { color: var(--text-1); }
+  .sort-btn.active { color: var(--amber); }
+  .sort-btn.active .radio-dot { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 5px var(--amber-glow); }
+  .sort-filter-section { padding: 10px 16px; margin-left: auto; background: var(--bg-card); }
+  .sort-filter-grid { display: grid; grid-template-columns: repeat(2,auto); gap: 6px 14px; }
+  .sort-results { flex:1; overflow-y:auto; padding:12px 18px; display:flex; flex-direction:column; gap:6px; min-height:0; }
+  .sort-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 8px 14px 8px 10px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .sort-row:hover { border-color: rgba(245,158,11,0.3); background: var(--bg-secondary); }
+  .sort-rank { font-family:'Noto Serif JP',serif; font-size: 18px; font-weight: 700; min-width: 30px; text-align: center; }
+  .sort-rank.rank-0 { color: var(--text-3); }
+  .sort-rank.rank-1 { color: var(--amber); }
+  .sort-rank.rank-2 { color: #b0b8c8; }
+  .sort-rank.rank-3 { color: #c9845a; }
+  .sort-portrait {
+    width: 52px; height: 52px; flex-shrink: 0;
+    border-radius: 10px; border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .sort-portrait-inner { width:100%; height:100%; position:relative; }
+  .sort-icon {
+    position: absolute; top: 3px; left: 3px; width: 14px; height: 14px;
+    background: rgba(124,92,252,0.3); border-radius: 4px; z-index: 3;
+    display: flex; align-items: center; justify-content: center; font-size: 7px;
+  }
+  .sort-char-name { font-size: 14px; font-weight: 500; color: var(--text-1); min-width: 120px; }
+  .sort-char-sub { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+  .sort-stat-bar { flex:1; display:flex; align-items:center; gap:10px; }
+  .sort-stat-label { font-size: 10px; color: var(--text-3); min-width: 50px; }
+  .sort-stat-track { flex:1; height:3px; background:var(--bg-secondary); border-radius:2px; }
+  .sort-stat-fill { height:100%; background:var(--amber); border-radius:2px; transition:width 0.4s ease; }
+  .sort-stat-val { font-size: 14px; font-weight: 600; color: var(--text-1); min-width: 55px; text-align: right; }
+  .sort-elem-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink:0; }
+  .el-藍 { background: var(--el-藍); }
+  .el-紅 { background: var(--el-紅); }
+  .el-翠 { background: var(--el-翠); }
+  .el-黄 { background: var(--el-黄); }
+
+  /* ===== RELATIONSHIP PAGE ===== */
+  #page-relationship { overflow: hidden; }
+  .rel-canvas-wrap {
+    width: 100%; height: calc(100vh - 54px);
+    overflow: hidden; position: relative; cursor: grab;
+    background: var(--bg);
+    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .rel-canvas-wrap.grabbing { cursor: grabbing; }
+  .rel-canvas { position: absolute; transform-origin: 0 0; }
+  .rel-svg { position: absolute; top:0; left:0; width:4000px; height:3000px; pointer-events:none; overflow:visible; z-index: 1; }
+  .rel-country {
+    position: absolute; border-radius: var(--radius-xl);
+    z-index: 0;
+  }
+  .rel-country-label {
+    position: absolute; top: -16px; left: 0;
+    font-size: 12px; font-weight: 600;
+    color: var(--text-1); background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 3px 12px; border-radius: 6px;
+    cursor: pointer; white-space: nowrap; transition: border-color 0.18s;
+  }
+  .rel-country-label:hover { border-color: rgba(124,92,252,0.4); color: var(--primary); }
+  .rel-char-node { position: absolute; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 2; }
+  .rel-char-node:hover { transform: translateY(-3px); }
+  .rel-char-portrait {
+    width: 68px; height: 68px;
+    border-radius: var(--radius-lg); border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5); transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .rel-char-node:hover .rel-char-portrait { border-color: rgba(124,92,252,0.4); box-shadow: 0 0 14px var(--primary-glow); }
+  .rel-char-icon { position:absolute; top:4px; left:4px; width:16px; height:16px; background:rgba(124,92,252,0.3); border-radius:5px; z-index:3; display:flex; align-items:center; justify-content:center; font-size:8px; }
+  .rel-char-name { font-size: 10px; color: var(--text-2); font-weight: 500; white-space: nowrap; background: rgba(13,14,20,0.8); padding: 2px 6px; border-radius: 4px; }
+  .rel-label-box { background: var(--amber); color: #0a0a0c; font-size: 10px; font-weight: 700; padding: 3px 6px; border-radius: 4px; }
+  .rel-zoom-controls { position: absolute; bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 4px; z-index: 10; }
+  .rel-zoom-btn {
+    width: 30px; height: 30px; background: var(--bg-panel);
+    border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text-2); font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.18s;
+  }
+  .rel-zoom-btn:hover { border-color: rgba(124,92,252,0.4); color: var(--primary); }
+
+  /* ===== MAP PAGE ===== */
+  #page-map.active { display: flex; flex-direction: column; height: calc(100vh - 54px); overflow: hidden; }
+  .map-topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 20px; background: var(--bg-card);
+    border-bottom: 1px solid var(--border); flex-shrink: 0; flex-wrap: wrap;
+  }
+  .map-toggle-wrap { display: flex; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .map-toggle-btn {
+    padding: 5px 14px; font-size: 11px; font-family: inherit;
+    color: var(--text-2); background: transparent; border: none; cursor: pointer; transition: all 0.18s;
+  }
+  .map-toggle-btn + .map-toggle-btn { border-left: 1px solid var(--border); }
+  .map-toggle-btn.active { color: var(--primary); background: var(--primary-dim); }
+  .map-country-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .map-country-tab {
+    padding: 5px 14px; font-size: 12px; font-family: inherit;
+    color: var(--text-2); background: var(--bg-secondary);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    cursor: pointer; transition: all 0.18s;
+  }
+  .map-country-tab:hover { color: var(--text-1); border-color: var(--border-hover); }
+  .map-country-tab.active { color: var(--amber); border-color: rgba(245,158,11,0.4); background: var(--amber-dim); }
+  .map-desc-panel {
+    padding: 10px 20px; background: rgba(124,92,252,0.04);
+    border-bottom: 1px solid var(--border); flex-shrink: 0;
+    font-size: 12px; color: var(--text-2); line-height: 1.8; min-height: 50px;
+  }
+  .map-desc-panel.empty { color: var(--text-3); font-style: italic; }
+  .map-canvas-area {
+    flex: 1; min-height: 0; position: relative; overflow: hidden;
+    background: var(--bg);
+    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 24px 24px; cursor: grab;
+  }
+  .map-canvas-area.grabbing { cursor: grabbing; }
+  .map-canvas { position: absolute; transform-origin: 0 0; }
+  .map-zoom-controls { position: absolute; bottom: 14px; right: 14px; display: flex; flex-direction: column; gap: 4px; z-index: 10; }
+  .map-zoom-btn {
+    width: 28px; height: 28px; background: var(--bg-panel);
+    border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text-2); font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.18s;
+  }
+  .map-zoom-btn:hover { border-color: rgba(124,92,252,0.4); color: var(--primary); }
+
+  /* ===== SKILL LIST PAGE ===== */
+  .skill-list-page { padding: 22px 26px; }
+  .skill-list-title {
+    font-size: 10px; font-weight: 700;
+    color: var(--text-3); letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .skill-list-title::after { content: ''; flex:1; height:1px; background: var(--border); }
+  .skill-effect-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+  .skill-effect-card {
+    padding: 16px 18px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); cursor: pointer; transition: all 0.18s;
+    position: relative; overflow: hidden;
+  }
+  .skill-effect-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:transparent; transition:background 0.18s; border-radius:3px 0 0 3px; }
+  .skill-effect-card:hover { border-color: rgba(124,92,252,0.3); background: var(--bg-secondary); }
+  .skill-effect-card:hover::before { background: var(--primary); }
+  .skill-effect-name { font-family:'Noto Serif JP',serif; font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+  .skill-effect-meta { font-size: 10px; color: var(--text-3); }
+  .skill-effect-count { position: absolute; top: 12px; right: 14px; font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.05); }
+
+  /* ===== SKILL DETAIL PAGE ===== */
+  .skill-detail-page { padding: 18px 24px; }
+  .skill-detail-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .skill-detail-name {
+    font-family: 'Noto Serif JP',serif; font-size: 17px; font-weight: 700;
+    color: var(--text-1); letter-spacing: 0.08em;
+  }
+  .skill-detail-desc {
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); border-left: 3px solid var(--primary);
+    padding: 18px 20px; font-size: 13px; color: var(--text-2);
+    line-height: 1.9; margin-bottom: 24px;
+  }
+  .skill-chars-label { font-size: 10px; color: var(--text-3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+  .skill-chars-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-char-card { width: 88px; cursor: pointer; transition: transform 0.18s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .skill-char-card:hover { transform: translateY(-3px); }
+  .skill-char-portrait {
+    width: 88px; height: 88px; border-radius: var(--radius-lg);
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4); transition: border-color 0.18s;
+  }
+  .skill-char-card:hover .skill-char-portrait { border-color: rgba(124,92,252,0.4); }
+  .skill-char-icon-sm { position:absolute; top:4px; left:4px; width:16px; height:16px; background:rgba(124,92,252,0.3); border-radius:5px; z-index:3; display:flex; align-items:center; justify-content:center; font-size:8px; }
+  .skill-char-name { font-size: 10px; color: var(--text-2); text-align: center; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title" onclick="showPage('home'); setSidebarActive(null)">タイトル</div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+      <span class="theme-toggle-icon" id="themeIcon">☀</span>
+      <span id="themeLabel">ライト</span>
+    </button>
+    <div class="global-search-wrap">
+    <input class="global-search-input" id="globalSearchInput" placeholder="全体検索（キャラ・スキル等）" oninput="doGlobalSearch()" onfocus="openSearchPanel()" />
+    <button class="global-search-btn" onclick="doGlobalSearch(); openSearchPanel()">⌕</button>
+  </div>
+  </div>
+</header>
+
+<div class="search-results-panel" id="searchPanel">
+  <div class="search-results-label">検索結果</div>
+  <div id="searchResultsBody"></div>
+</div>
+
+<div class="app-layout" onclick="closeSearchPanel(event)">
+
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-heading">CHARACTER</div>
+      <a class="sidebar-link" onclick="showPage('list'); setSidebarActive(this)">all</a>
+      <a class="sidebar-link" onclick="showPage('sort'); setSidebarActive(this)">sort</a>
+      <a class="sidebar-link" onclick="showPage('relationship'); setSidebarActive(this)">relationship</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-heading">map</div>
+      <a class="sidebar-link" onclick="showMap(1); setSidebarActive(this)">第一</a>
+      <a class="sidebar-link" onclick="showMap(2); setSidebarActive(this)">第二</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-heading">skill</div>
+      <a class="sidebar-link" onclick="showSkillList('buff'); setSidebarActive(this)">buff</a>
+      <a class="sidebar-link" onclick="showSkillList('debuff'); setSidebarActive(this)">debuff</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+      <div class="home-page">
+        <div class="home-hero">
+          <div class="home-hero-badge">⚔ GameWiki</div>
+          <h1 class="home-hero-title">キャラクター図鑑</h1>
+          <p class="home-hero-desc">キャラクター詳細・スキル用語・相関図・マップなど、ゲーム攻略に必要な情報を網羅したWikiサイトです。</p>
+          <div class="home-stats">
+            <div class="home-stat-chip">👤 <b id="homeCharCount">—</b> キャラクター</div>
+            <div class="home-stat-chip">⚡ スキル用語 <b>16+</b></div>
+          </div>
+        </div>
+
+        <div class="home-section-title">クイックアクセス</div>
+        <div class="home-links-grid">
+          <div class="home-link-card" style="--card-grad:linear-gradient(135deg,rgba(124,92,252,0.06),transparent);"
+               onclick="showPage('list'); setSidebarActive(document.querySelector('.sidebar-link'))">
+            <span class="home-link-icon">📖</span>
+            <div class="home-link-title">キャラクター図鑑</div>
+            <div class="home-link-desc">全キャラクターの詳細情報</div>
+            <span class="home-link-arrow">→</span>
+          </div>
+          <div class="home-link-card" style="--card-grad:linear-gradient(135deg,rgba(34,211,238,0.06),transparent);"
+               onclick="showPage('sort'); setSidebarActive(document.querySelectorAll('.sidebar-link')[1])">
+            <span class="home-link-icon">📊</span>
+            <div class="home-link-title">ソート検索</div>
+            <div class="home-link-desc">ステータスでランキング表示</div>
+            <span class="home-link-arrow">→</span>
+          </div>
+          <div class="home-link-card" style="--card-grad:linear-gradient(135deg,rgba(245,158,11,0.06),transparent);"
+               onclick="showSkillList('buff'); setSidebarActive(document.querySelectorAll('.sidebar-link')[5])">
+            <span class="home-link-icon">✨</span>
+            <div class="home-link-title">スキル効果 (Buff)</div>
+            <div class="home-link-desc">バフ効果の解説一覧</div>
+            <span class="home-link-arrow">→</span>
+          </div>
+          <div class="home-link-card" style="--card-grad:linear-gradient(135deg,rgba(248,113,113,0.06),transparent);"
+               onclick="showSkillList('debuff'); setSidebarActive(document.querySelectorAll('.sidebar-link')[6])">
+            <span class="home-link-icon">💀</span>
+            <div class="home-link-title">スキル効果 (Debuff)</div>
+            <div class="home-link-desc">デバフ効果の解説一覧</div>
+            <span class="home-link-arrow">→</span>
+          </div>
+          <div class="home-link-card" style="--card-grad:linear-gradient(135deg,rgba(52,211,153,0.06),transparent);"
+               onclick="showPage('relationship'); setSidebarActive(document.querySelectorAll('.sidebar-link')[2])">
+            <span class="home-link-icon">🕸</span>
+            <div class="home-link-title">相関図</div>
+            <div class="home-link-desc">キャラクター同士の関係</div>
+            <span class="home-link-arrow">→</span>
+          </div>
+          <div class="home-link-card" style="--card-grad:linear-gradient(135deg,rgba(251,191,36,0.06),transparent);"
+               onclick="showMap(1); setSidebarActive(document.querySelectorAll('.sidebar-link')[3])">
+            <span class="home-link-icon">🗺</span>
+            <div class="home-link-title">マップ</div>
+            <div class="home-link-desc">ゲーム世界の地図</div>
+            <span class="home-link-arrow">→</span>
+          </div>
+        </div>
+
+        <div class="home-section-title">キャラクター</div>
+        <div class="home-chars-grid" id="homeCharGrid"></div>
+      </div>
+    </div>
+
+    <!-- LIST PAGE -->
+    <div id="page-list" class="page">
+      <div class="filter-bar">
+        <div class="name-search-wrap">
+          <span class="name-search-icon">⌕</span>
+          <input class="name-search-input" id="nameSearch" placeholder="名前で検索" oninput="filterByName()" />
+        </div>
+        <div class="filter-sep"></div>
+        <div class="filter-group-label">元素</div>
+        <button class="filter-btn" data-filter="藍" onclick="toggleListFilter('藍', this)"><span class="radio-dot"></span>藍</button>
+        <button class="filter-btn" data-filter="紅" onclick="toggleListFilter('紅', this)"><span class="radio-dot"></span>紅</button>
+        <button class="filter-btn" data-filter="翠" onclick="toggleListFilter('翠', this)"><span class="radio-dot"></span>翠</button>
+        <button class="filter-btn" data-filter="黄" onclick="toggleListFilter('黄', this)"><span class="radio-dot"></span>黄</button>
+        <div class="filter-sep"></div>
+        <div class="filter-group-label">クラス</div>
+        <button class="filter-btn" data-filter="ウォーリア" onclick="toggleListFilter('ウォーリア', this)"><span class="radio-dot"></span>ウォーリア</button>
+        <button class="filter-btn" data-filter="スナイパー" onclick="toggleListFilter('スナイパー', this)"><span class="radio-dot"></span>スナイパー</button>
+        <button class="filter-btn" data-filter="ソーサラー" onclick="toggleListFilter('ソーサラー', this)"><span class="radio-dot"></span>ソーサラー</button>
+        <button class="filter-btn filter-btn-reset" onclick="resetListFilters()">✕ リセット</button>
+      </div>
+      <div class="character-grid" id="charGrid"></div>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div id="page-detail" class="page">
+      <div class="detail-page">
+        <div class="detail-top-row">
+          <div class="back-btn" onclick="showPage('list')">キャラクター一覧</div>
+          <div class="char-name-header" id="detailName"></div>
+        </div>
+
+        <div class="char-detail-top">
+          <div class="char-portrait-wrap">
+            <div class="char-portrait-large" id="detailPortrait"></div>
+          </div>
+          <div class="char-info-wrap">
+            <div class="char-quote"><div class="char-quote-text" id="detailQuote"></div></div>
+            <div class="char-titles">
+              <div class="char-title-main" id="detailTitle"></div>
+              <div class="char-title-sub" id="detailSub"></div>
+            </div>
+          </div>
+        </div>
+        <!-- ステータス：全幅で表示 -->
+        <button class="status-btn" onclick="toggleStatus()">ステータス ▾</button>
+        <div class="status-panel" id="statusPanel">
+          <div class="status-grid-4x4">
+            <div class="status-row"><span class="status-label">HP</span><span class="status-val" id="st-hp">—</span></div>
+            <div class="status-row"><span class="status-label">ATK</span><span class="status-val" id="st-atk">—</span></div>
+            <div class="status-row"><span class="status-label">DEF</span><span class="status-val" id="st-def">—</span></div>
+            <div class="status-row"><span class="status-label">SPD</span><span class="status-val" id="st-spd">—</span></div>
+            <div class="status-row"><span class="status-label">MP</span><span class="status-val" id="st-mp">—</span></div>
+            <div class="status-row"><span class="status-label">回避</span><span class="status-val" id="st-evade">—</span></div>
+            <div class="status-row"><span class="status-label">命中</span><span class="status-val" id="st-hit">—</span></div>
+            <div class="status-row"><span class="status-label">CT短縮</span><span class="status-val" id="st-ct">—</span></div>
+            <div class="status-row"><span class="status-label">クリ率</span><span class="status-val" id="st-crit">—</span></div>
+            <div class="status-row"><span class="status-label">クリダメ</span><span class="status-val" id="st-critd">—</span></div>
+            <div class="status-row"><span class="status-label">貫通</span><span class="status-val" id="st-pen">—</span></div>
+            <div class="status-row"><span class="status-label">耐性</span><span class="status-val" id="st-res">—</span></div>
+            <div class="status-row"><span class="status-label">回復力</span><span class="status-val" id="st-heal">—</span></div>
+            <div class="status-row"><span class="status-label">魔力回復</span><span class="status-val" id="st-mpreg">—</span></div>
+            <div class="status-row"><span class="status-label">移動速度</span><span class="status-val" id="st-move">—</span></div>
+            <div class="status-row"><span class="status-label">WT</span><span class="status-val" id="st-wt">—</span></div>
+          </div>
+        </div>
+
+        <!-- タブ: スキル・プロフィール・ボイス・ラメント -->
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchTab('skill', this)">スキル</button>
+          <button class="tab-btn" onclick="switchTab('profile', this)">プロフィール</button>
+          <button class="tab-btn" onclick="switchTab('voice', this)">ボイス</button>
+          <button class="tab-btn" onclick="switchTab('lament', this)">ラメント</button>
+        </div>
+
+        <div id="tab-skill" class="tab-panel active">
+          <div class="skill-summary-bar">
+            <div class="summary-radio" id="summaryToggle" onclick="toggleSummary()">
+              <span class="summary-radio-dot"></span><span>要約</span>
+            </div>
+            <div class="weapon-select-wrap">
+              <span class="weapon-select-label">専用武器：</span>
+              <button class="weapon-tab-btn active" onclick="selectWeapon('サタン', this)">サタン</button>
+              <button class="weapon-tab-btn" onclick="selectWeapon('ミカエル', this)">ミカエル</button>
+              <button class="weapon-tab-btn" onclick="selectWeapon('メタトロン', this)">メタトロン</button>
+            </div>
+          </div>
+          <div class="skill-summary-text" id="skillSummaryText"></div>
+          <div id="skillContent"></div>
+        </div>
+
+        <div id="tab-profile" class="tab-panel">
+          <div class="profile-stats-grid">
+            <div class="profile-stat-row"><span class="profile-stat-label">身長</span><span class="profile-stat-line"></span><span class="profile-stat-val" id="pf-height">—</span></div>
+            <div class="profile-stat-row"><span class="profile-stat-label">体重</span><span class="profile-stat-line"></span><span class="profile-stat-val" id="pf-weight">—</span></div>
+            <div class="profile-stat-row"><span class="profile-stat-label">血液型</span><span class="profile-stat-line"></span><span class="profile-stat-val" id="pf-blood">—</span></div>
+            <div class="profile-stat-row"><span class="profile-stat-label">誕生日</span><span class="profile-stat-line"></span><span class="profile-stat-val" id="pf-bday">—</span></div>
+          </div>
+          <div class="profile-desc" id="pf-desc"></div>
+          <div class="profile-memo-label">メモ</div>
+          <div class="memo-editor" id="memoEditor"></div>
+        </div>
+
+        <div id="tab-voice" class="tab-panel">
+          <div id="voiceContent"></div>
+        </div>
+
+        <div id="tab-lament" class="tab-panel">
+          <div id="lamentContent"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- MAP PAGE -->
+    <div id="page-map" class="page">
+      <div class="map-topbar">
+        <div class="map-toggle-wrap">
+          <button class="map-toggle-btn active" id="mapToggleOn" onclick="setMapLabel(true)">文字あり</button>
+          <button class="map-toggle-btn" id="mapToggleOff" onclick="setMapLabel(false)">文字なし</button>
+        </div>
+        <div class="map-country-tabs" id="mapCountryTabs"></div>
+      </div>
+      <div class="map-desc-panel empty" id="mapDescPanel">国をクリックすると説明が表示されます</div>
+      <div class="map-canvas-area" id="mapCanvasArea">
+        <div class="map-canvas" id="mapCanvas"></div>
+        <div class="map-zoom-controls">
+          <button class="map-zoom-btn" onclick="mapZoom(0.2)">＋</button>
+          <button class="map-zoom-btn" onclick="mapZoom(-0.2)">－</button>
+          <button class="map-zoom-btn" onclick="mapReset()">⌂</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILL LIST PAGE (buff) -->
+    <div id="page-skill-buff" class="page">
+      <div class="skill-list-page">
+        <div class="skill-list-title">BUFF SKILLS</div>
+        <div class="skill-effect-grid" id="skillGridBuff"></div>
+      </div>
+    </div>
+
+    <!-- SKILL LIST PAGE (debuff) -->
+    <div id="page-skill-debuff" class="page">
+      <div class="skill-list-page">
+        <div class="skill-list-title">DEBUFF SKILLS</div>
+        <div class="skill-effect-grid" id="skillGridDebuff"></div>
+      </div>
+    </div>
+
+    <!-- SKILL DETAIL PAGE -->
+    <div id="page-skill-detail" class="page">
+      <div class="skill-detail-page">
+        <div class="skill-detail-header">
+          <div class="back-btn" id="skillDetailBack" onclick="goBackFromSkillDetail()">一覧に戻る</div>
+          <div class="skill-detail-name" id="skillDetailName"></div>
+        </div>
+        <div class="skill-detail-desc" id="skillDetailDesc"></div>
+        <div class="skill-chars-label">このスキルを持つキャラクター</div>
+        <div class="skill-chars-grid" id="skillDetailChars"></div>
+      </div>
+    </div>
+
+    <!-- SORT PAGE -->
+    <div id="page-sort" class="page">
+      <div class="sort-criteria-bar">
+        <div class="sort-criteria-section">
+          <div class="sort-criteria-label">ソート項目</div>
+          <div class="sort-criteria-grid" id="sortCriteriaGrid" style="grid-template-columns:repeat(4,auto);gap:5px 14px;">
+            <button class="sort-btn active" data-key="hp"      onclick="setSortKey('hp',this)"><span class="radio-dot"></span>HP</button>
+            <button class="sort-btn" data-key="atk"     onclick="setSortKey('atk',this)"><span class="radio-dot"></span>ATK</button>
+            <button class="sort-btn" data-key="def"     onclick="setSortKey('def',this)"><span class="radio-dot"></span>DEF</button>
+            <button class="sort-btn" data-key="spd"     onclick="setSortKey('spd',this)"><span class="radio-dot"></span>SPD</button>
+            <button class="sort-btn" data-key="mp"      onclick="setSortKey('mp',this)"><span class="radio-dot"></span>MP</button>
+            <button class="sort-btn" data-key="evade"   onclick="setSortKey('evade',this)"><span class="radio-dot"></span>回避</button>
+            <button class="sort-btn" data-key="hit"     onclick="setSortKey('hit',this)"><span class="radio-dot"></span>命中</button>
+            <button class="sort-btn" data-key="ct"      onclick="setSortKey('ct',this)"><span class="radio-dot"></span>CT短縮</button>
+            <button class="sort-btn" data-key="crit"    onclick="setSortKey('crit',this)"><span class="radio-dot"></span>クリ率</button>
+            <button class="sort-btn" data-key="critd"   onclick="setSortKey('critd',this)"><span class="radio-dot"></span>クリダメ</button>
+            <button class="sort-btn" data-key="pen"     onclick="setSortKey('pen',this)"><span class="radio-dot"></span>貫通</button>
+            <button class="sort-btn" data-key="res"     onclick="setSortKey('res',this)"><span class="radio-dot"></span>耐性</button>
+            <button class="sort-btn" data-key="heal"    onclick="setSortKey('heal',this)"><span class="radio-dot"></span>回復力</button>
+            <button class="sort-btn" data-key="mpreg"   onclick="setSortKey('mpreg',this)"><span class="radio-dot"></span>魔力回復</button>
+            <button class="sort-btn" data-key="move"    onclick="setSortKey('move',this)"><span class="radio-dot"></span>移動速度</button>
+            <button class="sort-btn" data-key="wt"      onclick="setSortKey('wt',this)"><span class="radio-dot"></span>WT</button>
+            <button class="sort-btn" data-key="height"  onclick="setSortKey('height',this)"><span class="radio-dot"></span>身長</button>
+            <button class="sort-btn" data-key="weight"  onclick="setSortKey('weight',this)"><span class="radio-dot"></span>体重</button>
+            <button class="sort-btn" data-key="birthday" onclick="setSortKey('birthday',this)"><span class="radio-dot"></span>誕生日</button>
+          </div>
+        </div>
+        <div class="sort-filter-section">
+          <div class="sort-criteria-label">フィルター</div>
+          <div class="sort-filter-grid">
+            <button class="sort-btn" data-fkey="藍" onclick="toggleSortFilter('藍',this)"><span class="radio-dot"></span>藍</button>
+            <button class="sort-btn" data-fkey="ウォーリア" onclick="toggleSortFilter('ウォーリア',this)"><span class="radio-dot"></span>ウォーリア</button>
+            <button class="sort-btn" data-fkey="紅" onclick="toggleSortFilter('紅',this)"><span class="radio-dot"></span>紅</button>
+            <button class="sort-btn" data-fkey="スナイパー" onclick="toggleSortFilter('スナイパー',this)"><span class="radio-dot"></span>スナイパー</button>
+            <button class="sort-btn" data-fkey="翠" onclick="toggleSortFilter('翠',this)"><span class="radio-dot"></span>翠</button>
+            <button class="sort-btn" data-fkey="ソーサラー" onclick="toggleSortFilter('ソーサラー',this)"><span class="radio-dot"></span>ソーサラー</button>
+            <button class="sort-btn" data-fkey="黄" onclick="toggleSortFilter('黄',this)"><span class="radio-dot"></span>黄</button>
+          </div>
+        </div>
+      </div>
+      <div class="sort-results" id="sortResults"></div>
+    </div>
+
+    <!-- RELATIONSHIP PAGE -->
+    <div id="page-relationship" class="page">
+      <div class="rel-canvas-wrap" id="relCanvasWrap">
+        <div class="rel-canvas" id="relCanvas">
+          <svg class="rel-svg" id="relSvg"></svg>
+        </div>
+        <div class="rel-zoom-controls">
+          <button class="rel-zoom-btn" onclick="relZoom(0.2)">＋</button>
+          <button class="rel-zoom-btn" onclick="relZoom(-0.2)">－</button>
+          <button class="rel-zoom-btn" onclick="relReset()" title="リセット">⌂</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="keyword-popup" id="keywordPopup">
+  <span class="keyword-popup-close" onclick="closeKeywordPopup()">✕</span>
+  <div class="keyword-popup-title" id="kwTitle"></div>
+  <div id="kwBody"></div>
+  <div id="kwLink"></div>
+</div>
+
+<script>
+// グローバルキャラクター配列（各キャラファイルが push する）
+const CHAR_DATA = [];
+</script>
+
+<!-- ▼▼ キャラクターデータ: 1キャラ＝1ファイル ▼▼ -->
+<script src="data/chars/001_アムレート.js"></script>
+<script src="data/chars/002_ヴェルタ.js"></script>
+<script src="data/chars/003_シルフィ.js"></script>
+<script src="data/chars/004_ゼノス.js"></script>
+<script src="data/chars/005_リュナ.js"></script>
+<script src="data/chars/006_カルロス.js"></script>
+
+<!-- ▼▼ 共通データ ▼▼ -->
+<script src="data/keywords.js"></script>
+<script src="data/skill_effects.js"></script>
+<script src="data/maps.js"></script>
+<script src="data/relationships.js"></script>
+<script src="data/index.js"></script>
+
+<script>
+function renderCards(chars) {
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = '';
+  chars.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'char-card';
+    card.dataset.element = c.element; card.dataset.class = c.class;
+    card.dataset.name = c.name; card.dataset.tags = (c.tags||[]).join(',');
+    card.innerHTML = `<div class="card-inner"><div class="card-portrait-placeholder ${c.gradient}"><div class="portrait-silhouette"></div></div><div class="card-icon">🔥</div><div class="card-element el-${c.element}"></div><div class="card-name">${c.name}</div></div>`;
+    card.addEventListener('click', () => openDetail(c));
+    grid.appendChild(card);
+  });
+}
+
+let currentFilter = 'all';
+function filterChars(type, btn) {
+  currentFilter = type;
+  if (btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  const nameVal = document.getElementById('nameSearch').value.trim();
+  document.querySelectorAll('.char-card').forEach(card => {
+    let show = true;
+    if (['藍','紅','翠','黄'].includes(type)) show = card.dataset.element === type;
+    else if (['ウォーリア','スナイパー','ソーサラー'].includes(type)) show = card.dataset.class === type;
+    else if (['buff','debuff'].includes(type)) show = card.dataset.tags.includes(type);
+    if (nameVal) show = show && card.dataset.name.includes(nameVal);
+    card.classList.toggle('hidden', !show);
+  });
+}
+function filterByName() { filterChars(currentFilter, null); }
+function sortCharacters() { renderCards([...characters].sort((a,b) => a.name.localeCompare(b.name,'ja'))); }
+
+function openDetail(char) {
+  currentChar = char; currentWeapon = 'サタン'; summaryOn = false;
+  document.getElementById('detailName').textContent = char.name;
+  document.getElementById('detailQuote').textContent = char.quote;
+  document.getElementById('detailTitle').textContent = char.title;
+  document.getElementById('detailSub').textContent = char.sub;
+  document.getElementById('detailPortrait').innerHTML = `<div class="portrait-icon-large">🔥</div><div class="${char.gradient}" style="width:100%;height:100%;"></div><div class="portrait-silhouette"></div>`;
+  document.getElementById('st-hp').textContent = char.status.hp.toLocaleString();
+  document.getElementById('st-atk').textContent = char.status.atk.toLocaleString();
+  document.getElementById('st-def').textContent = char.status.def.toLocaleString();
+  document.getElementById('st-spd').textContent = char.status.spd;
+  document.getElementById('statusPanel').classList.remove('open');
+  document.getElementById('pf-height').textContent = char.profile.height;
+  document.getElementById('pf-weight').textContent = char.profile.weight;
+  document.getElementById('pf-blood').textContent = char.profile.blood;
+  document.getElementById('pf-bday').textContent = char.profile.birthday;
+  document.getElementById('pf-desc').textContent = char.profile.desc;
+  document.getElementById('memoEditor').innerHTML = '';
+  document.getElementById('summaryToggle').classList.remove('checked');
+  document.getElementById('skillSummaryText').classList.remove('show');
+  document.querySelectorAll('.weapon-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.weapon-tab-btn').classList.add('active');
+  renderSkills(); renderVoice(); renderLament();
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.tab-btn').classList.add('active');
+  document.getElementById('tab-skill').classList.add('active');
+  showPage('detail');
+}
+
+function renderSkills() {
+  if (!currentChar) return;
+  const skills = currentChar.skills[currentWeapon] || [];
+  document.getElementById('skillContent').innerHTML = skills.map(s => {
+    const descHtml = s.desc.replace(/<kw data-kw="([^"]+)">([^<]+)<\/kw>/g, (m,kw,text) =>
+      `<span class="skill-keyword" onclick="showKeyword('${kw}',event)">${text}</span>`);
+    return `<div class="skill-block"><div class="skill-header"><span class="skill-name">${s.name}</span>${s.ct?`<span class="skill-ct">CT ${s.ct}</span>`:''}</div><div class="skill-desc">${descHtml}</div></div>`;
+  }).join('');
+  const summaryLines = skills.map(s => `【${s.name}】${s.summary}`).join('<br>');
+  document.getElementById('skillSummaryText').innerHTML = `<b>専用武器：${currentWeapon}</b><br>${summaryLines}`;
+  if (summaryOn) document.getElementById('skillSummaryText').classList.add('show');
+}
+
+function renderVoice() {
+  if (!currentChar) return;
+  let first = true;
+  document.getElementById('voiceContent').innerHTML = Object.entries(currentChar.voices).map(([sec, lines]) => {
+    const open = first; first = false;
+    return `<div class="accordion-section"><div class="accordion-header" onclick="toggleAccordion(this)"><span class="accordion-arrow">${open?'▽':'▷'}</span><span>${sec}</span></div><div class="accordion-content ${open?'open':''}"><div class="voice-list">${lines.map(l=>`<div class="voice-item"><span class="voice-bullet">・</span><span>${l}</span><button class="voice-play-btn">▶</button></div>`).join('')}</div></div></div>`;
+  }).join('');
+}
+
+function renderLament() {
+  if (!currentChar) return;
+  let first = true;
+  document.getElementById('lamentContent').innerHTML = Object.entries(currentChar.lament).map(([sec, lines]) => {
+    const open = first; first = false;
+    return `<div class="accordion-section"><div class="accordion-header" onclick="toggleAccordion(this)"><span class="accordion-arrow">${open?'▽':'▷'}</span><span>${sec}</span></div><div class="accordion-content ${open?'open':''}"><div class="lament-list">${lines.map(l=>`<div class="lament-line-wrap"><span class="lament-line-text">${l}</span><input class="lament-note" placeholder="ふりがな・意味など" /></div>`).join('')}</div></div></div>`;
+  }).join('');
+}
+
+function toggleAccordion(header) {
+  const content = header.nextElementSibling;
+  const isOpen = content.classList.toggle('open');
+  header.querySelector('.accordion-arrow').textContent = isOpen ? '▽' : '▷';
+}
+function toggleStatus() { document.getElementById('statusPanel').classList.toggle('open'); }
+function toggleSummary() {
+  summaryOn = !summaryOn;
+  document.getElementById('summaryToggle').classList.toggle('checked', summaryOn);
+  document.getElementById('skillSummaryText').classList.toggle('show', summaryOn);
+}
+function selectWeapon(weapon, btn) {
+  currentWeapon = weapon;
+  document.querySelectorAll('.weapon-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSkills();
+}
+function showKeyword(kw, e) {
+  e.stopPropagation();
+  const popup = document.getElementById('keywordPopup');
+  document.getElementById('kwTitle').textContent = kw;
+  document.getElementById('kwBody').textContent = keywords[kw] || '説明がありません。';
+  popup.style.top = (e.clientY + 12) + 'px';
+  popup.style.left = Math.min(e.clientX, window.innerWidth - 300) + 'px';
+  popup.classList.add('open');
+}
+function closeKeywordPopup() { document.getElementById('keywordPopup').classList.remove('open'); }
+document.addEventListener('click', () => closeKeywordPopup());
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+}
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`tab-${name}`).classList.add('active');
+}
+function setSidebarActive(el) {
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+}
+function execMemoCmd(cmd) { document.getElementById('memoEditor').focus(); document.execCommand(cmd, false, null); }
+function insertMemoImage() {
+  const url = prompt('画像URLを入力してください:');
+  if (url) { document.getElementById('memoEditor').focus(); document.execCommand('insertImage', false, url); }
+}
+
+function openSearchPanel() {
+  const val = document.getElementById('globalSearchInput').value.trim();
+  if (val) doGlobalSearch();
+  else { document.getElementById('searchResultsBody').innerHTML = '<div class="search-no-result">キーワードを入力してください</div>'; document.getElementById('searchPanel').classList.add('open'); }
+}
+function closeSearchPanel(e) {
+  if (!e.target.closest('.global-search-wrap') && !e.target.closest('.search-results-panel')) document.getElementById('searchPanel').classList.remove('open');
+}
+function doGlobalSearch() {
+  const val = document.getElementById('globalSearchInput').value.trim();
+  if (!val) { document.getElementById('searchResultsBody').innerHTML = '<div class="search-no-result">キーワードを入力してください</div>'; document.getElementById('searchPanel').classList.add('open'); return; }
+  const results = [];
+  characters.forEach(c => {
+    let matchType = '';
+    if (c.name.includes(val)) matchType = 'キャラ名';
+    else if (c.title && c.title.includes(val)) matchType = '肩書き';
+    else {
+      Object.values(c.skills).forEach(ws => ws.forEach(s => { if ((s.name+s.desc.replace(/<[^>]+>/g,'')).includes(val)) matchType = 'スキル'; }));
+    }
+    if (matchType) results.push({char:c, matchType});
+  });
+  if (results.length === 0) {
+    document.getElementById('searchResultsBody').innerHTML = `<div class="search-no-result">「${val}」に一致するキャラクターが見つかりませんでした</div>`;
+  } else {
+    document.getElementById('searchResultsBody').innerHTML = results.map(r =>
+      `<div class="search-result-item" onclick="openDetail(characters.find(c=>c.id===${r.char.id})); document.getElementById('searchPanel').classList.remove('open');"><div class="search-result-thumb ${r.char.gradient}">🔥</div><div><div class="search-result-name">${r.char.name}</div><div class="search-result-sub">${r.char.title}</div></div><span class="search-result-tag">${r.matchType}</span></div>`
+    ).join('');
+  }
+  document.getElementById('searchPanel').classList.add('open');
+}
+
+renderCards(characters);
+
+
+// ===== LIST PAGE FILTERS (multi-select: element OR|OR, class OR|OR, between AND) =====
+const listFilters = new Set();
+
+function toggleListFilter(key, btn) {
+  if (listFilters.has(key)) { listFilters.delete(key); btn.classList.remove('active'); }
+  else { listFilters.add(key); btn.classList.add('active'); }
+  applyListFilters();
+}
+
+function resetListFilters() {
+  listFilters.clear();
+  document.querySelectorAll('.filter-bar .filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+  applyListFilters();
+}
+
+function applyListFilters() {
+  const elements = ['藍','紅','翠','黄'];
+  const classes  = ['ウォーリア','スナイパー','ソーサラー'];
+  const nameVal = document.getElementById('nameSearch') ? document.getElementById('nameSearch').value.trim() : '';
+  const activeElems   = [...listFilters].filter(k => elements.includes(k));
+  const activeClasses = [...listFilters].filter(k => classes.includes(k));
+  document.querySelectorAll('.char-card').forEach(card => {
+    let show = true;
+    if (activeElems.length > 0)   show = show && activeElems.includes(card.dataset.element);
+    if (activeClasses.length > 0) show = show && activeClasses.includes(card.dataset.class);
+    if (nameVal) show = show && card.dataset.name.includes(nameVal);
+    card.classList.toggle('hidden', !show);
+  });
+}
+
+function filterByName() { applyListFilters(); }
+
+// Keep filterChars for sidebar buff/debuff
+let currentFilter = 'all';
+function filterChars(type, btn) {
+  currentFilter = type;
+  if (['buff','debuff'].includes(type)) {
+    document.querySelectorAll('.char-card').forEach(card => {
+      card.classList.toggle('hidden', !card.dataset.tags.includes(type));
+    });
+  }
+}
+
+// ===== SORT PAGE =====
+// Extend character data with extra sort fields
+characters.forEach(c => {
+  // parse numeric values from profile strings
+  c.sortData = {
+    hp:       c.status.hp,
+    atk:      c.status.atk,
+    spd:      c.status.spd,
+    evade:    c.status.evade || Math.round(c.status.spd * 0.6 + Math.random() * 20),
+    hit:      c.status.hit  || Math.round(c.status.atk * 0.04 + 80 + Math.random() * 30),
+    height:   parseInt(c.profile.height),
+    weight:   parseInt(c.profile.weight),
+    birthday: (() => {
+      const m = c.profile.birthday.match(/(\d+)月(\d+)日/);
+      return m ? parseInt(m[1]) * 100 + parseInt(m[2]) : 0;
+    })(),
+  };
+});
+
+const sortKeyLabels = { spd:'SPD', evade:'回避', height:'身長', hp:'HP', weight:'体重', atk:'ATK', birthday:'誕生日', hit:'命中' };
+const sortKeyUnits  = { spd:'', evade:'', height:'cm', hp:'', weight:'kg', atk:'', birthday:'', hit:'' };
+let currentSortKey = 'spd';
+let sortFilters = new Set();
+
+function getSortVal(c, key) { return c.sortData[key] || 0; }
+
+function getStatLabel(c, key) {
+  if (key === 'height') return c.profile.height;
+  if (key === 'weight') return c.profile.weight;
+  if (key === 'birthday') return c.profile.birthday;
+  return getSortVal(c, key).toLocaleString() + sortKeyUnits[key];
+}
+
+function setSortKey(key, btn) {
+  currentSortKey = key;
+  document.querySelectorAll('#sortCriteriaGrid .sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSortResults();
+}
+
+function toggleSortFilter(key, btn) {
+  if (sortFilters.has(key)) { sortFilters.delete(key); btn.classList.remove('active'); }
+  else { sortFilters.add(key); btn.classList.add('active'); }
+  renderSortResults();
+}
+
+function renderSortResults() {
+  let list = [...characters];
+  if (sortFilters.size > 0) {
+    list = list.filter(c => sortFilters.has(c.element) || sortFilters.has(c.class));
+  }
+  list.sort((a, b) => {
+    if (currentSortKey === 'birthday') return getSortVal(a,'birthday') - getSortVal(b,'birthday');
+    return getSortVal(b, currentSortKey) - getSortVal(a, currentSortKey);
+  });
+  const maxVal = Math.max(...list.map(c => getSortVal(c, currentSortKey))) || 1;
+  const container = document.getElementById('sortResults');
+  container.innerHTML = list.map((c, i) => {
+    const rank = i + 1;
+    const val = getSortVal(c, currentSortKey);
+    const pct = currentSortKey === 'birthday' ? 100 : Math.round(val / maxVal * 100);
+    return `
+      <div class="sort-row" onclick="openDetail(c); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]);" style="--c:${c}">
+        <div class="sort-rank rank-${rank <= 3 ? rank : 0}">${rank}</div>
+        <div class="sort-portrait">
+          <div class="sort-portrait-inner ${c.gradient}">
+            <div class="sort-icon">🔥</div>
+            <div class="portrait-silhouette"></div>
+          </div>
+        </div>
+        <div>
+          <div class="sort-char-name">${c.name}</div>
+          <div class="sort-char-sub">${c.title}</div>
+        </div>
+        <div class="sort-stat-bar">
+          <span class="sort-stat-label">${sortKeyLabels[currentSortKey]}</span>
+          ${currentSortKey !== 'birthday' ? `<div class="sort-stat-track"><div class="sort-stat-fill" style="width:${pct}%"></div></div>` : ''}
+          <span class="sort-stat-val">${getStatLabel(c, currentSortKey)}</span>
+        </div>
+        <div class="sort-elem-dot el-${c.element}"></div>
+      </div>
+    `;
+  }).join('');
+  // Fix onclick to use index
+  container.querySelectorAll('.sort-row').forEach((row, i) => {
+    const char = list[i];
+    row.onclick = () => { openDetail(char); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]); };
+  });
+}
+
+// ===== RELATIONSHIP PAGE =====
+// Define country regions and character placements
+const relLayout = {
+  countries: [
+    { id:'ブルク', label:'ブルク', x:60,  y:60,  w:420, h:340, color:'rgba(30,60,90,0.55)',  border:'rgba(60,110,160,0.5)' },
+    { id:'ルプス', label:'ルプス', x:560, y:60,  w:380, h:340, color:'rgba(80,40,30,0.55)',  border:'rgba(160,80,60,0.5)' },
+    { id:'無所属', label:'無所属', x:200, y:460, w:500, h:220, color:'rgba(40,40,40,0.45)',  border:'rgba(80,80,80,0.4)' },
+  ],
+  nodes: [
+    { charId:1, x:130, y:140, countryId:'ブルク' },
+    { charId:2, x:320, y:140, countryId:'ブルク' },
+    { charId:3, x:130, y:300, countryId:'ブルク' },
+    { charId:4, x:640, y:130, countryId:'ルプス' },
+    { charId:5, x:820, y:130, countryId:'ルプス' },
+    { charId:6, x:730, y:290, countryId:'ルプス' },
+    { charId:1, x:300, y:520, countryId:'無所属', alias:'アムレート（客員）' },
+  ],
+  edges: [
+    { from:1, to:2, label:'親友',   color:'#e8c96a' },
+    { from:2, to:3, label:'同僚',   color:'#a09880' },
+    { from:1, to:3, label:'師弟',   color:'#4abfc9' },
+    { from:4, to:5, label:'ライバル', color:'#bf3a3a' },
+    { from:4, to:6, label:'上官',   color:'#a09880' },
+    { from:2, to:4, label:'因縁',   color:'#c9604a' },
+    { from:3, to:5, label:'旧友',   color:'#3abf6a' },
+  ],
+};
+
+let relScale = 1, relOffX = 0, relOffY = 0;
+let relDragging = false, relDragStart = {x:0,y:0}, relDragOrigin = {x:0,y:0};
+
+function renderRelationship() {
+  const canvas = document.getElementById('relCanvas');
+  const svg = document.getElementById('relSvg');
+  canvas.innerHTML = ''; canvas.appendChild(svg); svg.innerHTML = '';
+
+  // Countries
+  relLayout.countries.forEach(ct => {
+    const div = document.createElement('div');
+    div.className = 'rel-country';
+    div.style.cssText = `left:${ct.x}px;top:${ct.y}px;width:${ct.w}px;height:${ct.h}px;background:${ct.color};border:1px solid ${ct.border};`;
+    const lbl = document.createElement('div');
+    lbl.className = 'rel-country-label';
+    lbl.textContent = ct.label;
+    lbl.onclick = (e) => { e.stopPropagation(); };
+    div.appendChild(lbl);
+    canvas.appendChild(div);
+  });
+
+  // Build node position map (charId → center coords, using first occurrence)
+  const nodePos = {};
+  const uniqueNodes = [];
+  relLayout.nodes.forEach(n => {
+    if (!nodePos[n.charId]) {
+      nodePos[n.charId] = { x: n.x + 35, y: n.y + 35 };
+    }
+    uniqueNodes.push(n);
+  });
+
+  // Draw edges on SVG
+  relLayout.edges.forEach(edge => {
+    const a = nodePos[edge.from], b = nodePos[edge.to];
+    if (!a || !b) return;
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+    line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+    line.setAttribute('stroke', edge.color); line.setAttribute('stroke-width','2');
+    line.setAttribute('stroke-opacity','0.7');
+    svg.appendChild(line);
+    // label
+    const fo = document.createElementNS('http://www.w3.org/2000/svg','foreignObject');
+    fo.setAttribute('x', mx - 30); fo.setAttribute('y', my - 12);
+    fo.setAttribute('width', 70); fo.setAttribute('height', 28);
+    fo.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" class="rel-label-box" style="background:${edge.color};display:inline-block;">${edge.label}</div>`;
+    svg.appendChild(fo);
+  });
+
+  // Draw character nodes
+  uniqueNodes.forEach(n => {
+    const char = characters.find(c => c.id === n.charId);
+    if (!char) return;
+    const node = document.createElement('div');
+    node.className = 'rel-char-node';
+    node.style.cssText = `left:${n.x}px;top:${n.y}px;`;
+    node.innerHTML = `
+      <div class="rel-char-portrait">
+        <div class="rel-char-icon">🔥</div>
+        <div class="${char.gradient}" style="width:100%;height:100%;"></div>
+        <div class="portrait-silhouette"></div>
+      </div>
+      <div class="rel-char-name">${n.alias || char.name}</div>
+    `;
+    node.onclick = (e) => { e.stopPropagation(); openDetail(char); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]); };
+    canvas.appendChild(node);
+  });
+
+  applyRelTransform();
+  setupRelDrag();
+}
+
+function applyRelTransform() {
+  document.getElementById('relCanvas').style.transform = `translate(${relOffX}px,${relOffY}px) scale(${relScale})`;
+}
+
+function relZoom(delta) {
+  relScale = Math.max(0.3, Math.min(2.5, relScale + delta));
+  applyRelTransform();
+}
+
+function relReset() {
+  relScale = 1; relOffX = 40; relOffY = 20;
+  applyRelTransform();
+}
+
+function setupRelDrag() {
+  const wrap = document.getElementById('relCanvasWrap');
+  if (wrap._dragSetup) return;
+  wrap._dragSetup = true;
+  wrap.addEventListener('mousedown', e => {
+    relDragging = true; relDragStart = {x:e.clientX, y:e.clientY};
+    relDragOrigin = {x:relOffX, y:relOffY};
+    wrap.classList.add('grabbing');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!relDragging) return;
+    relOffX = relDragOrigin.x + e.clientX - relDragStart.x;
+    relOffY = relDragOrigin.y + e.clientY - relDragStart.y;
+    applyRelTransform();
+  });
+  window.addEventListener('mouseup', () => { relDragging = false; wrap.classList.remove('grabbing'); });
+  // Touch
+  wrap.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      relDragging = true;
+      relDragStart = {x:e.touches[0].clientX, y:e.touches[0].clientY};
+      relDragOrigin = {x:relOffX, y:relOffY};
+    }
+  }, {passive:true});
+  wrap.addEventListener('touchmove', e => {
+    if (!relDragging || e.touches.length !== 1) return;
+    relOffX = relDragOrigin.x + e.touches[0].clientX - relDragStart.x;
+    relOffY = relDragOrigin.y + e.touches[0].clientY - relDragStart.y;
+    applyRelTransform();
+  }, {passive:true});
+  wrap.addEventListener('touchend', () => { relDragging = false; });
+  // Wheel zoom
+  wrap.addEventListener('wheel', e => {
+    e.preventDefault();
+    relZoom(e.deltaY < 0 ? 0.1 : -0.1);
+  }, {passive:false});
+}
+
+
+
+
+let relScale = 1, relOffX = 0, relOffY = 0;
+let relDragging = false, relDragStart = {x:0,y:0}, relDragOrigin = {x:0,y:0};
+
+function renderRelationship() {
+  const canvas = document.getElementById('relCanvas');
+  const svg = document.getElementById('relSvg');
+  canvas.innerHTML = ''; canvas.appendChild(svg); svg.innerHTML = '';
+
+  // Countries
+  relLayout.countries.forEach(ct => {
+    const div = document.createElement('div');
+    div.className = 'rel-country';
+    div.style.cssText = `left:${ct.x}px;top:${ct.y}px;width:${ct.w}px;height:${ct.h}px;background:${ct.color};border:1px solid ${ct.border};z-index:0;`;
+    const lbl = document.createElement('div');
+    lbl.className = 'rel-country-label';
+    lbl.textContent = ct.label;
+    lbl.onclick = (e) => { e.stopPropagation(); };
+    div.appendChild(lbl);
+    canvas.appendChild(div);
+  });
+
+  // Build node position map (charId → center coords, using first occurrence)
+  const nodePos = {};
+  const uniqueNodes = [];
+  relLayout.nodes.forEach(n => {
+    if (!nodePos[n.charId]) {
+      nodePos[n.charId] = { x: n.x + 35, y: n.y + 35 };
+    }
+    uniqueNodes.push(n);
+  });
+
+  // Set SVG dimensions explicitly so markers render correctly
+  svg.setAttribute('width', '4000');
+  svg.setAttribute('height', '3000');
+
+  // Define arrow markers in SVG <defs>
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  const colorMarkerMap = {};
+  const usedColors = [...new Set(relLayout.edges.map(e => e.color))];
+  usedColors.forEach((color, idx) => {
+    const markerId = `rel-arrow-${idx}`;
+    colorMarkerMap[color] = markerId;
+    const marker = document.createElementNS('http://www.w3.org/2000/svg','marker');
+    marker.setAttribute('id', markerId);
+    marker.setAttribute('markerWidth', '10');
+    marker.setAttribute('markerHeight', '10');
+    marker.setAttribute('refX', '9');
+    marker.setAttribute('refY', '4');
+    marker.setAttribute('orient', 'auto');
+    marker.setAttribute('markerUnits', 'userSpaceOnUse');
+    const arrowPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+    arrowPath.setAttribute('d', 'M0,0 L0,8 L10,4 z');
+    arrowPath.setAttribute('fill', color);
+    arrowPath.setAttribute('opacity', '0.9');
+    marker.appendChild(arrowPath);
+    defs.appendChild(marker);
+  });
+  svg.appendChild(defs);
+
+  // Draw edges on SVG
+  relLayout.edges.forEach(edge => {
+    const a = nodePos[edge.from], b = nodePos[edge.to];
+    if (!a || !b) return;
+
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+    const nx = dx / dist, ny = dy / dist;
+    // Shorten both ends: start by 36px (portrait radius), end by 46px (portrait radius + arrow head)
+    const startPad = 36, endPad = 46;
+    const x1 = a.x + nx * startPad;
+    const y1 = a.y + ny * startPad;
+    const x2 = b.x - nx * endPad;
+    const y2 = b.y - ny * endPad;
+
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const markerId = colorMarkerMap[edge.color] || 'rel-arrow-0';
+
+    // Line
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+    line.setAttribute('stroke', edge.color);
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('stroke-opacity', '0.8');
+    line.setAttribute('marker-end', `url(#${markerId})`);
+    svg.appendChild(line);
+
+    // Relationship label (foreignObject)
+    const fo = document.createElementNS('http://www.w3.org/2000/svg','foreignObject');
+    fo.setAttribute('x', mx - 36); fo.setAttribute('y', my - 13);
+    fo.setAttribute('width', '80'); fo.setAttribute('height', '28');
+    fo.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" style="background:${edge.color};color:#0a0a0c;font-size:10px;font-weight:700;padding:3px 7px;border-radius:4px;display:inline-block;white-space:nowrap;font-family:sans-serif;">${edge.label}</div>`;
+    svg.appendChild(fo);
+  });
+
+  // Draw character nodes
+  uniqueNodes.forEach(n => {
+    const char = characters.find(c => c.id === n.charId);
+    if (!char) return;
+    const node = document.createElement('div');
+    node.className = 'rel-char-node';
+    node.style.cssText = `left:${n.x}px;top:${n.y}px;`;
+    node.innerHTML = `
+      <div class="rel-char-portrait">
+        <div class="rel-char-icon">🔥</div>
+        <div class="${char.gradient}" style="width:100%;height:100%;"></div>
+        <div class="portrait-silhouette"></div>
+      </div>
+      <div class="rel-char-name">${n.alias || char.name}</div>
+    `;
+    node.onclick = (e) => { e.stopPropagation(); openDetail(char); setSidebarActive(document.querySelectorAll('.sidebar-link')[0]); };
+    canvas.appendChild(node);
+  });
+
+  applyRelTransform();
+  setupRelDrag();
+}
+
+function applyRelTransform() {
+  document.getElementById('relCanvas').style.transform = `translate(${relOffX}px,${relOffY}px) scale(${relScale})`;
+}
+
+function relZoom(delta) {
+  relScale = Math.max(0.3, Math.min(2.5, relScale + delta));
+  applyRelTransform();
+}
+
+function relReset() {
+  relScale = 1; relOffX = 40; relOffY = 20;
+  applyRelTransform();
+}
+
+function setupRelDrag() {
+  const wrap = document.getElementById('relCanvasWrap');
+  if (wrap._dragSetup) return;
+  wrap._dragSetup = true;
+  wrap.addEventListener('mousedown', e => {
+    relDragging = true; relDragStart = {x:e.clientX, y:e.clientY};
+    relDragOrigin = {x:relOffX, y:relOffY};
+    wrap.classList.add('grabbing');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!relDragging) return;
+    relOffX = relDragOrigin.x + e.clientX - relDragStart.x;
+    relOffY = relDragOrigin.y + e.clientY - relDragStart.y;
+    applyRelTransform();
+  });
+  window.addEventListener('mouseup', () => { relDragging = false; wrap.classList.remove('grabbing'); });
+  // Touch
+  wrap.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      relDragging = true;
+      relDragStart = {x:e.touches[0].clientX, y:e.touches[0].clientY};
+      relDragOrigin = {x:relOffX, y:relOffY};
+    }
+  }, {passive:true});
+  wrap.addEventListener('touchmove', e => {
+    if (!relDragging || e.touches.length !== 1) return;
+    relOffX = relDragOrigin.x + e.touches[0].clientX - relDragStart.x;
+    relOffY = relDragOrigin.y + e.touches[0].clientY - relDragStart.y;
+    applyRelTransform();
+  }, {passive:true});
+  wrap.addEventListener('touchend', () => { relDragging = false; });
+  // Wheel zoom
+  wrap.addEventListener('wheel', e => {
+    e.preventDefault();
+    relZoom(e.deltaY < 0 ? 0.1 : -0.1);
+  }, {passive:false});
+}
+
+// (showPage wrapper moved to end of script)
+
+let currentMapNum = 1;
+let mapShowLabel = true;
+let mapScale = 1, mapOffX = 0, mapOffY = 0;
+
+
+let mapDragging = false, mapDragStart = {x:0,y:0}, mapDragOrigin = {x:0,y:0};
+let activeCountryId = null;
+
+function showMap(num) {
+  currentMapNum = num;
+  activeCountryId = null;
+  window.showPage('map');
+  renderMap();
+}
+
+function setMapLabel(on) {
+  mapShowLabel = on;
+  document.getElementById('mapToggleOn').classList.toggle('active', on);
+  document.getElementById('mapToggleOff').classList.toggle('active', !on);
+  renderMap();
+}
+
+function renderMap() {
+  const data = mapData[currentMapNum];
+  if (!data) return;
+
+  // Country tabs
+  const tabs = document.getElementById('mapCountryTabs');
+  tabs.innerHTML = '';
+  data.countries.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'map-country-tab' + (c.id === activeCountryId ? ' active' : '');
+    btn.textContent = c.label;
+    btn.onclick = () => selectMapCountry(c.id);
+    tabs.appendChild(btn);
+  });
+
+  // Desc
+  if (activeCountryId) {
+    const c = data.countries.find(x => x.id === activeCountryId);
+    const panel = document.getElementById('mapDescPanel');
+    panel.textContent = c ? c.desc : '';
+    panel.classList.remove('empty');
+  } else {
+    const panel = document.getElementById('mapDescPanel');
+    panel.textContent = '国をクリックすると説明が表示されます';
+    panel.classList.add('empty');
+  }
+
+  // SVG map
+  const canvas = document.getElementById('mapCanvas');
+  const W = 680, H = 480;
+  canvas.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <!-- ocean bg -->
+    <rect width="${W}" height="${H}" fill="#0a1020" rx="4"/>
+    <rect width="${W}" height="${H}" fill="url(#ocean)" opacity="0.3"/>
+    ${data.countries.map(c => `
+      <g class="map-svg-region ${c.id === activeCountryId ? 'active-region' : ''}"
+         onclick="selectMapCountry('${c.id}')" style="cursor:pointer;">
+        <path d="${c.path}" fill="${c.color}" stroke="${c.stroke}" stroke-width="2"
+              ${c.id === activeCountryId ? 'filter="url(#glow)"' : ''}/>
+        ${mapShowLabel ? `
+          <text x="${c.labelX}" y="${c.labelY}"
+            font-family="serif" font-size="16" font-weight="bold"
+            fill="${c.labelColor}" text-anchor="middle"
+            style="pointer-events:none; letter-spacing:0.1em;">${c.label}</text>
+        ` : ''}
+      </g>
+    `).join('')}
+    <!-- decorative dots -->
+    <circle cx="100" cy="420" r="2" fill="#2a2a50" opacity="0.5"/>
+    <circle cx="560" cy="40" r="2" fill="#2a2a50" opacity="0.5"/>
+  </svg>`;
+
+  setupMapDrag();
+}
+
+function selectMapCountry(id) {
+  activeCountryId = (activeCountryId === id) ? null : id;
+  renderMap();
+}
+
+function mapZoom(delta) {
+  mapScale = Math.max(0.3, Math.min(3, mapScale + delta));
+  applyMapTransform();
+}
+function mapReset() { mapScale = 1; mapOffX = 40; mapOffY = 20; applyMapTransform(); }
+function applyMapTransform() {
+  document.getElementById('mapCanvas').style.transform = `translate(${mapOffX}px,${mapOffY}px) scale(${mapScale})`;
+}
+
+function setupMapDrag() {
+  const area = document.getElementById('mapCanvasArea');
+  if (area._dragSetup) return;
+  area._dragSetup = true;
+  area.addEventListener('mousedown', e => {
+    if (e.target.closest('.map-zoom-controls')) return;
+    mapDragging = true; mapDragStart = {x:e.clientX,y:e.clientY}; mapDragOrigin = {x:mapOffX,y:mapOffY};
+    area.classList.add('grabbing');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!mapDragging) return;
+    mapOffX = mapDragOrigin.x + e.clientX - mapDragStart.x;
+    mapOffY = mapDragOrigin.y + e.clientY - mapDragStart.y;
+    applyMapTransform();
+  });
+  window.addEventListener('mouseup', () => { mapDragging = false; area.classList.remove('grabbing'); });
+  area.addEventListener('wheel', e => {
+    e.preventDefault(); mapZoom(e.deltaY < 0 ? 0.15 : -0.15);
+  }, {passive: false});
+}
+
+// ===== SKILL PAGES =====
+// Detect which characters have each skill effect by scanning skill descriptions
+function getCharsForEffect(effect) {
+  const kwList = effect.keywords.map(k => k.toLowerCase());
+  return characters.filter(c => {
+    const allText = Object.values(c.skills)
+      .flat()
+      .map(s => s.desc.replace(/<[^>]+>/g,'').toLowerCase() + ' ' + (s.summary||'').toLowerCase())
+      .join(' ');
+    return kwList.some(kw => allText.includes(kw.toLowerCase()));
+  });
+}
+
+let skillListType = 'buff'; // 'buff' or 'debuff'
+
+function showSkillList(type) {
+  skillListType = type;
+  window.showPage('skill-' + type);
+  renderSkillGrid(type);
+}
+
+function renderSkillGrid(type) {
+  const effects = skillEffectData[type];
+  const gridId = type === 'buff' ? 'skillGridBuff' : 'skillGridDebuff';
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  grid.innerHTML = '';
+  effects.forEach(effect => {
+    const chars = getCharsForEffect(effect);
+    const card = document.createElement('div');
+    card.className = 'skill-effect-card';
+    card.innerHTML = `
+      <div class="skill-effect-count">${chars.length}</div>
+      <div class="skill-effect-name">${effect.name}</div>
+      <div class="skill-effect-meta">${type.toUpperCase()} · ${chars.length}体</div>
+    `;
+    card.addEventListener('click', () => openSkillDetail(effect));
+    grid.appendChild(card);
+  });
+}
+
+function openSkillDetail(effect) {
+  document.getElementById('skillDetailName').textContent = effect.name;
+  // Render desc with cyan keyword links
+  const descHtml = effect.desc.replace(/<kw data-kw="([^"]+)">([^<]+)<\/kw>/g, (m, kw, text) =>
+    `<span class="skill-keyword" onclick="showKeyword('${kw}',event)">${text}</span>`
+  );
+  document.getElementById('skillDetailDesc').innerHTML = descHtml;
+
+  // Characters
+  const chars = getCharsForEffect(effect);
+  const grid = document.getElementById('skillDetailChars');
+  grid.innerHTML = '';
+  chars.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'skill-char-card';
+    card.innerHTML = `
+      <div class="skill-char-portrait">
+        <div class="skill-char-icon-sm">🔥</div>
+        <div class="${c.gradient}" style="width:100%;height:100%;position:relative;">
+          <div class="portrait-silhouette"></div>
+        </div>
+      </div>
+      <div class="skill-char-name">${c.name}</div>
+    `;
+    card.addEventListener('click', () => {
+      openDetail(c);
+      setSidebarActive(document.querySelectorAll('.sidebar-link')[0]);
+    });
+    grid.appendChild(card);
+  });
+
+  // Store which type we came from for back button
+  document.getElementById('skillDetailBack').dataset.from = skillListType;
+  window.showPage('skill-detail');
+}
+
+function goBackFromSkillDetail() {
+  const from = document.getElementById('skillDetailBack').dataset.from || 'buff';
+  showSkillList(from);
+  const sbLinks = document.querySelectorAll('.sidebar-link');
+  // Find buff or debuff link
+  sbLinks.forEach(l => { if (l.textContent === from) setSidebarActive(l); });
+}
+
+
+// ===== showPage wrapper (unified) =====
+const _origShowPage = showPage;
+window.showPage = function(name) {
+  _origShowPage(name);
+  if (name === 'home')         renderHome();
+  if (name === 'sort')         renderSortResults();
+  if (name === 'relationship') renderRelationship();
+  // map and skill pages are rendered by their own show functions
+};
+
+renderSortResults();
+
+</script>
+</body>
+</html>
